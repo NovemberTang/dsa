@@ -1,16 +1,5 @@
 #include <stdio.h>
 
-int myfunction(char *string)
-{
-    printf("%s", string);
-    for (int i = 0; i < 7; i++)
-    {
-        printf("%x\n", (string + i));
-        printf("%c\n", *(string + i));
-    }
-    return 0;
-}
-
 void insertAtBeginning(int *arr, int size, int elem, int elemCount)
 {
     int i;
