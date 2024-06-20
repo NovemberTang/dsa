@@ -31,14 +31,45 @@ void insertAtBeginning(int *arr, int size, int elem, int elemCount)
     printf("%d\n", arr[1]);
 }
 
+// TODO insert at position
+
+void insertIntoPosition(int *arr, int ins_idx, int mem_size, int arr_size, int value)
+{
+
+    if (arr_size >= mem_size)
+    {
+        printf("Array is full bro\n");
+        return;
+    }
+
+    int i;
+
+    for (i = arr_size - 1; i >= ins_idx; i--)
+    {
+        printf("%d\n", arr[i]);
+        arr[i + 1] = arr[i];
+    }
+    arr[ins_idx] = value;
+
+    printf(" \n");
+    i = 0;
+    for (i; i <= arr_size; i++)
+    {
+        printf("%d\n", arr[i]);
+    };
+}
+
+// TODO insert at end
+
 int main()
 {
     // printf("hello\n");
     // myfunction("world\n");
 
-    int myArray[5] = {5, 4, 3};
+    int myLongArray[6] = {2,
+                          4,
+                          8,
+                          10};
 
-    insertAtBeginning(myArray, 5, 2, 3);
-
-    insertAtBeginning(myArray, 2, 2, 3);
+    insertIntoPosition(myLongArray, 2, 6, 4, 6);
 }
