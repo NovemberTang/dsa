@@ -1,13 +1,19 @@
-#include <stdio.h>
+#include <stdio.h>  //for printf()
+#include <stdlib.h> //for exit()
+
+void arrayIsFullBro(int arr_size, int mem_size)
+{
+    if (arr_size >= mem_size)
+    {
+        printf("Array is full bro\n");
+        exit(1);
+    }
+}
 
 void insertAtBeginning(int *arr, int size, int elem, int elemCount)
 {
     int i;
-    if (elemCount >= size)
-    {
-        printf("Array is full bro\n");
-        return;
-    }
+    arrayIsFullBro(elemCount, size);
 
     for (i = elemCount - 1; i >= 0; i--)
     {
@@ -20,16 +26,9 @@ void insertAtBeginning(int *arr, int size, int elem, int elemCount)
     printf("%d\n", arr[1]);
 }
 
-// TODO insert at position
-
 void insertIntoPosition(int *arr, int ins_idx, int mem_size, int arr_size, int value)
 {
-
-    if (arr_size >= mem_size)
-    {
-        printf("Array is full bro\n");
-        return;
-    }
+    arrayIsFullBro(arr_size, mem_size);
 
     int i;
 
