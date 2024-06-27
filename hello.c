@@ -60,6 +60,44 @@ void insertAtEnd(int *arr, int mem_size, int arr_size, int value)
     printArray(arr, arr_size + 1);
 }
 
+void deleteFromBeginning(int *arr, int arr_size)
+{
+    printf("Deleting from beginning of array\n");
+    int i;
+    printArray(arr, arr_size);
+    for (i = 0; i < arr_size; i++)
+    {
+        printf("Old value %d, ", arr[i]);
+        arr[i] = arr[i + 1];
+        printf("New value %d\n", arr[i]);
+    }
+    printArray(arr, arr_size);
+    printf("\n");
+}
+
+void deleteFromEnd(int *arr, int arr_size)
+{
+    printf("Deleting from end of array\n");
+    printArray(arr, arr_size);
+    arr[arr_size - 1] = 0;
+    printArray(arr, arr_size);
+    printf("\n");
+}
+
+void deleteFromPosition(int *arr, int arr_size, int idx_to_delete)
+{
+    int i;
+    printf("Deleting element %d from array\n", idx_to_delete);
+    printf("Before: ");
+    printArray(arr, arr_size);
+    for (i = idx_to_delete; i < arr_size; i++)
+    {
+        arr[i] = arr[i + 1];
+    }
+    printf("After:  ");
+    printArray(arr, arr_size);
+}
+
 int main()
 {
 
@@ -73,4 +111,10 @@ int main()
     // which is reflected in insertAtEnd
 
     insertAtEnd(myLongArray, 10, 5, 12);
+
+    deleteFromBeginning(myLongArray, 6);
+
+    deleteFromEnd(myLongArray, 5);
+
+    deleteFromPosition(myLongArray, 4, 1);
 }
