@@ -1,6 +1,20 @@
 #include <stdio.h> //for printf()
 #include "insertAndDelete.h"
 
+int findIndex(int *arr, int value, int arr_len)
+{
+    int i;
+    for (i = 0; i < arr_len; i++)
+    {
+        if (arr[i] == value)
+        {
+            printf("Found value %d at position %d\n", value, i);
+            return i;
+        }
+    }
+    printf("Couldn't find value %d in array\n", value);
+}
+
 int main()
 {
 
@@ -11,15 +25,5 @@ int main()
 
     int arr_size = 4;
 
-    insertAtBeginning(myLongArray, 10, 6, &arr_size);
-    // insertAtBeginning mutated myLongArray, its length is now 5,
-    // which is reflected in insertAtEnd
-
-    insertAtEnd(myLongArray, 10, &arr_size, 12);
-
-    deleteFromBeginning(myLongArray, &arr_size);
-
-    deleteFromEnd(myLongArray, &arr_size);
-
-    deleteFromPosition(myLongArray, &arr_size, 1);
+    findIndex(myLongArray, 8, arr_size);
 }
