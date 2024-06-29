@@ -1,24 +1,5 @@
-#include <stdio.h>  //for printf()
-#include <stdlib.h> //for exit()
-
-void arrayIsFullBro(int arr_size, int mem_size)
-{
-    if (arr_size >= mem_size)
-    {
-        printf("Array is full bro\n");
-        exit(1);
-    }
-}
-
-void printArray(int *arr, int arraySize)
-{
-    int i;
-    for (i = 0; i < arraySize; i++)
-    {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
-}
+#include <stdio.h> //for printf()
+#include "arrayUtils.h"
 
 void insertAtBeginning(int *arr, int size, int elem, int *elemCount)
 {
@@ -76,9 +57,7 @@ void deleteFromBeginning(int *arr, int *arr_size)
     printArray(arr, *arr_size);
     for (i = 0; i < *arr_size; i++)
     {
-        printf("Old value %d, ", arr[i]);
         arr[i] = arr[i + 1];
-        printf("New value %d\n", arr[i]);
     }
     printArray(arr, *arr_size);
     printf("\n");
