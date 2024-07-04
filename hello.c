@@ -84,6 +84,41 @@ void mergeSortedArrays(int *xs, int x_len, int *ys, int y_len)
     printArray(zs, x_len + y_len);
 }
 
+void findMinFromIndex(int current_idx, int *arr, int arr_len)
+{
+    int current_min_idx = current_idx;
+    int current_min_value = arr[current_idx];
+    int i;
+    for (i = current_idx; i < arr_len; i++)
+    {
+        if (arr[i] < current_min_value)
+        {
+            current_min_value = arr[i];
+            current_min_idx = i;
+            printf("New minimum found: %d at position %d\n", current_min_value, current_min_idx);
+        }
+    }
+    // swap the two values around
+    int tmp = arr[current_idx];
+    arr[current_idx] = current_min_value;
+    arr[current_min_idx] = tmp;
+    printf("\n");
+}
+
+void selectionSort(int *arr, int arr_len)
+{
+
+    int current_idx;
+
+    for (current_idx = 0; current_idx < arr_len; current_idx++)
+    {
+
+        findMinFromIndex(current_idx, arr, arr_len);
+    }
+
+    printArray(arr, arr_len);
+}
+
 int main()
 {
 
@@ -94,5 +129,8 @@ int main()
 
     int myShortArray[3] = {5};
 
-    mergeSortedArrays(myLongArray, 4, myShortArray, 1);
+    // mergeSortedArrays(myLongArray, 4, myShortArray, 1);
+
+    int anotherShortArray[4] = {5, 4, 7, 3};
+    selectionSort(anotherShortArray, 4);
 }
