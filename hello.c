@@ -20,16 +20,10 @@ int findIndex(int *arr, int value, int arr_len)
 
 int main()
 {
+    int twoDimArray[2][2] = {{1, 2}, {3, 4}};
 
-    int myLongArray[10] = {0,
-                           4,
-                           8,
-                           10};
-
-    int myShortArray[3] = {5};
-
-    // mergeSortedArrays(myLongArray, 4, myShortArray, 1);
-
-    int anotherShortArray[4] = {5, 4, 7, 3};
-    selectionSort(anotherShortArray, 4);
+    for (int i = 0; i < 2; i++)
+    {
+        printArray(twoDimArray[i], 2);
+    }
 }
