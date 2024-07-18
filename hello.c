@@ -1,4 +1,5 @@
-#include <stdio.h> //for printf()
+#include <stdio.h>  //for printf()
+#include <stdlib.h> //for malloc()
 #include "insertAndDelete.h"
 #include "arrayUtils.h"
 #include "mergeAndSort.h"
@@ -55,7 +56,24 @@ void print3dArray(int arr[2][2][2])
     }
 }
 
-int main()
+struct node
+{
+    int value;
+    struct node *next;
+};
+
+void traverse(struct node first)
+{
+    struct node current = first;
+    printf("%d ", current.value);
+    while (current.next != NULL)
+    {
+        current = *current.next;
+        printf("%d ", current.value);
+    };
+};
+
+void main()
 {
     int twoDimArray[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
 
@@ -64,4 +82,20 @@ int main()
     int threeDimArray[2][2][2] = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
 
     print3dArray(threeDimArray);
+
+    struct node elem1 = {3, NULL};
+
+    struct node *prev = &elem1;
+
+    // create a linked list
+    for (int i = 15; i < 32; i++)
+    {
+        struct node *this = malloc(sizeof(struct node));
+        this->value = i;
+        prev->next = this;
+
+        prev = this;
+    }
+
+    traverse(elem1);
 }
