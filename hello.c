@@ -73,15 +73,27 @@ void traverse(struct node first)
     };
 };
 
+int *search(struct node first, int value)
+{
+    struct node *current = &first;
+    while (current->next != NULL && current->value != value)
+    {
+        current = current->next;
+    }
+    if (current->next == NULL)
+    {
+        printf("\nNo more elements in list\n");
+        return NULL;
+    }
+    else if (current->value == value)
+    {
+        printf("\nFound value %d!!\n", current->value);
+        return &current->value;
+    }
+}
+
 void main()
 {
-    int twoDimArray[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-
-    int twoDimArray2[3][3] = {{1, 1, 1}, {1, 1, 1}, {1, 1, 1}};
-
-    int threeDimArray[2][2][2] = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
-
-    print3dArray(threeDimArray);
 
     struct node elem1 = {3, NULL};
 
@@ -98,4 +110,6 @@ void main()
     }
 
     traverse(elem1);
+    search(elem1, 44);
+    search(elem1, 24);
 }
