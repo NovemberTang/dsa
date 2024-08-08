@@ -92,6 +92,13 @@ int *search(struct node first, int value)
     }
 }
 
+struct node *prependToLinkedList(struct node *list, int value)
+{
+    struct node *firstElem = malloc(sizeof(struct node));
+    *firstElem = (struct node){value, list};
+    return firstElem;
+}
+
 void main()
 {
 
@@ -109,7 +116,6 @@ void main()
         prev = this;
     }
 
-    traverse(elem1);
-    search(elem1, 44);
-    search(elem1, 24);
+    struct node *myNewList = prependToLinkedList(&elem1, 6);
+    traverse(*myNewList);
 }
