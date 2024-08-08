@@ -99,6 +99,18 @@ struct node *prependToLinkedList(struct node *list, int value)
     return firstElem;
 }
 
+void appendToLinkedList(struct node *first, int value)
+{
+    struct node *current = first;
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+    struct node *lastNode = malloc(sizeof(struct node));
+    *lastNode = (struct node){value, NULL};
+    current->next = lastNode;
+}
+
 void main()
 {
 
@@ -116,6 +128,6 @@ void main()
         prev = this;
     }
 
-    struct node *myNewList = prependToLinkedList(&elem1, 6);
-    traverse(*myNewList);
+    appendToLinkedList(&elem1, 77);
+    traverse(elem1);
 }
