@@ -30,7 +30,7 @@ void twoDimArraySum(int arr1[3][3], int arr2[3][3])
         }
         printArray(resultArray[i], 3);
     }
-};
+}
 
 void transpose(int arr[3][3])
 {
@@ -71,7 +71,7 @@ void traverse(struct node first)
         current = *current.next;
         printf("%d ", current.value);
     };
-};
+}
 
 int *search(struct node first, int value)
 {
