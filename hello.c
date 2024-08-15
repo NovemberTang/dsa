@@ -57,6 +57,24 @@ void print3dArray(int arr[2][2][2])
     }
 }
 
+void insertIntoPositionInLinkedList(struct node *first, int value, int pos)
+{
+    struct node *current = first;
+    int i = 0;
+    while (current->next != NULL && i < pos - 1)
+    {
+        current = current->next;
+        i++;
+    }
+    printf("Arrived at position %d, value %d\n", i, current->value);
+
+    struct node *newNode = malloc(sizeof(struct node));
+    *newNode = (struct node){value, current->next};
+    current->next = newNode;
+
+    traverse(*first);
+}
+
 void main()
 {
 
