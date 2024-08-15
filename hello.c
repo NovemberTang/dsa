@@ -75,12 +75,29 @@ void insertIntoPositionInLinkedList(struct node *first, int value, int pos)
     traverse(*first);
 }
 
+struct node *deleteHeadOfLinkedList(struct node *first)
+{
+
+    if (first == NULL)
+    {
+        printf("List is empty!\n");
+        return NULL;
+    }
+    else
+    {
+        struct node *newFirst = first->next;
+        free(first);
+        return newFirst;
+    }
+}
+
 void main()
 {
 
-    struct node elem1 = {3, NULL};
+    struct node *elem1 = malloc(sizeof(struct node));
+    *elem1 = (struct node){3, NULL};
 
-    struct node *prev = &elem1;
+    struct node *prev = elem1;
 
     // create a linked list
     for (int i = 15; i < 32; i++)
@@ -92,6 +109,11 @@ void main()
         prev = this;
     }
 
-    appendToLinkedList(&elem1, 77);
-    traverse(elem1);
+    struct node *myNull = NULL;
+
+    struct node *newList = deleteHeadOfLinkedList(elem1);
+
+    traverse(*newList);
+
+    traverse(*elem1); // this is forbidden as it's empty
 }
