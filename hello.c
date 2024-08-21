@@ -91,6 +91,18 @@ struct node *deleteHeadOfLinkedList(struct node *first)
     }
 }
 
+void deleteLastInLinkedList(struct node *first)
+{
+    struct node *current = first;
+    while (current->next->next != NULL)
+    {
+        current = current->next;
+    }
+    printf("%d\n", current->value);
+    free(current->next);
+    current->next = NULL;
+}
+
 void main()
 {
 
@@ -111,9 +123,7 @@ void main()
 
     struct node *myNull = NULL;
 
-    struct node *newList = deleteHeadOfLinkedList(elem1);
+    deleteLastInLinkedList(elem1);
 
-    traverse(*newList);
-
-    traverse(*elem1); // this is forbidden as it's empty
+    traverse(*elem1);
 }
