@@ -13,6 +13,7 @@ void traverse(struct node first)
         current = *current.next;
         printf("%d ", current.value);
     };
+    printf("\n");
 }
 
 int *search(struct node first, int value)
