@@ -118,6 +118,17 @@ void deleteAfterIndexInLinkedList(struct node *first, int idx)
     traverse(*first);
 }
 
+// Concatenation of Two Linked Lists
+void concatenate(struct node *list1, struct node *list2)
+{
+    struct node *current = list1;
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+    current->next = list2;
+}
+
 void main()
 {
 
@@ -138,5 +149,8 @@ void main()
 
     traverse(*elem1);
 
-    deleteAfterIndexInLinkedList(elem1, 4);
+    // this makes the list go round in a circle, which is fun
+    concatenate(elem1, elem1);
+
+    traverse(*elem1);
 }
