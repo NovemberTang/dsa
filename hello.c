@@ -113,7 +113,10 @@ void deleteAfterIndexInLinkedList(struct node *first, int idx)
         current_idx++;
     }
 
+    struct node *toDelete = current->next;
     current->next = current->next->next;
+
+    free(toDelete);
 
     traverse(*first);
 }
