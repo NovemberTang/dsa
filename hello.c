@@ -103,6 +103,21 @@ void deleteLastInLinkedList(struct node *first)
     current->next = NULL;
 }
 
+void deleteAfterIndexInLinkedList(struct node *first, int idx)
+{
+    int current_idx = 0;
+    struct node *current = first;
+    while (current_idx < idx)
+    {
+        current = current->next;
+        current_idx++;
+    }
+
+    current->next = current->next->next;
+
+    traverse(*first);
+}
+
 void main()
 {
 
@@ -121,9 +136,7 @@ void main()
         prev = this;
     }
 
-    struct node *myNull = NULL;
-
-    deleteLastInLinkedList(elem1);
-
     traverse(*elem1);
+
+    deleteAfterIndexInLinkedList(elem1, 4);
 }
