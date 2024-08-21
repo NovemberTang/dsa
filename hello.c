@@ -132,11 +132,34 @@ void concatenate(struct node *list1, struct node *list2)
     current->next = list2;
 }
 
+void sortLinkedList(struct node *first)
+{
+    struct node *current = first;
+    while (current->next != NULL)
+    {
+        struct node *tmp = current->next;
+        while (tmp != NULL)
+        {
+            if (current->value > tmp->value)
+            {
+                int smaller = tmp->value;
+                int bigger = current->value;
+
+                current->value = smaller;
+                tmp->value = bigger;
+            }
+            tmp = tmp->next;
+        }
+        traverse(*first);
+        current = current->next;
+    }
+}
+
 void main()
 {
 
     struct node *elem1 = malloc(sizeof(struct node));
-    *elem1 = (struct node){3, NULL};
+    *elem1 = (struct node){100, NULL};
 
     struct node *prev = elem1;
 
@@ -152,8 +175,7 @@ void main()
 
     traverse(*elem1);
 
-    // this makes the list go round in a circle, which is fun
-    concatenate(elem1, elem1);
+    sortLinkedList(elem1);
 
     traverse(*elem1);
 }
