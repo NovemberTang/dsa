@@ -155,6 +155,29 @@ void sortLinkedList(struct node *first)
     }
 }
 
+struct node *reverseLinkedList(struct node *first)
+{
+    struct node *prev = NULL;
+    struct node *current = first;
+    struct node *next = current->next;
+
+    while (next != NULL)
+    {
+        next = current->next; // reassignment of placeholder
+
+        current->next = prev; // moving the pointer
+
+        prev = current; // reassignment of placeholder
+        current = next; // reassignment of placeholder
+
+        if (current != NULL)
+        {
+            printf("%d\n", current->value);
+        }
+    }
+    return prev;
+}
+
 void main()
 {
 
@@ -172,10 +195,15 @@ void main()
 
         prev = this;
     }
+    printf("hello C!\n");
 
     traverse(*elem1);
 
-    sortLinkedList(elem1);
+    printf("hello Natasha!\n");
 
-    traverse(*elem1);
+    struct node *newHead = reverseLinkedList(elem1);
+
+    printf("hello Andrew!\n");
+
+    traverse(*newHead);
 }
