@@ -3,7 +3,6 @@
 #include "insertAndDelete.h"
 #include "arrayUtils.h"
 #include "mergeAndSort.h"
-#include "linkedList.h"
 
 int findIndex(int *arr, int value, int arr_len)
 {
@@ -57,32 +56,68 @@ void print3dArray(int arr[2][2][2])
     }
 }
 
+struct doubleNode
+{
+    int value;
+    struct doubleNode *next;
+    struct doubleNode *prev;
+};
+
+void traverseDouble(struct doubleNode first)
+{
+    struct doubleNode current = first;
+    printf("%d ", current.value);
+    while (current.next != NULL)
+    {
+        current = *current.next;
+        printf("%d ", current.value);
+    };
+    printf("\n");
+}
+
+void reverseTraverseDouble(struct doubleNode last)
+{
+    struct doubleNode current = last;
+    printf("%d ", current.value);
+    while (current.prev != NULL)
+    {
+        current = *current.prev;
+        printf("%d ", current.value);
+    };
+    printf("\n");
+}
+
+void insertIntoPositionDouble(struct doubleNode *first, int value, int pos)
+{
+    struct doubleNode *current = first;
+    int i = 0;
+    while (current->next != NULL && i < pos - 1)
+    {
+        current = current->next;
+        i++;
+    }
+    printf("Arrived at position %d, value %d\n", i, current->value);
+
+    struct doubleNode *newNode = malloc(sizeof(struct doubleNode));
+    *newNode = (struct doubleNode){value, current->next, current};
+    struct doubleNode *next = current->next;
+    next->prev = newNode;
+    current->next = newNode;
+}
+
 void main()
 {
 
-    struct node *elem1 = malloc(sizeof(struct node));
-    *elem1 = (struct node){100, NULL};
+    struct doubleNode *elem1 = malloc(sizeof(struct doubleNode));
+    *elem1 = (struct doubleNode){100, NULL, NULL};
 
-    struct node *prev = elem1;
+    struct doubleNode *elem2 = malloc(sizeof(struct doubleNode));
+    *elem2 = (struct doubleNode){101, NULL, elem1};
 
-    // create a linked list
-    for (int i = 15; i < 32; i++)
-    {
-        struct node *this = malloc(sizeof(struct node));
-        this->value = i;
-        prev->next = this;
+    elem1->next = elem2;
 
-        prev = this;
-    }
-    printf("hello C!\n");
+    // TODO fix for beginning/end of list edge cases.
+    insertIntoPositionDouble(elem1, 102, 0);
 
-    traverse(*elem1);
-
-    printf("hello Natasha!\n");
-
-    struct node *newHead = reverseLinkedList(elem1);
-
-    printf("hello Andrew!\n");
-
-    traverse(*newHead);
+    traverseDouble(*elem1);
 }
