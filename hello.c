@@ -71,7 +71,7 @@ void traverseDouble(struct doubleNode first)
     {
         current = *current.next;
         printf("%d ", current.value);
-    };
+    }
     printf("\n");
 }
 
@@ -119,6 +119,29 @@ struct doubleNode *insertIntoPositionDouble(struct doubleNode *first, int value,
     }
 }
 
+struct doubleNode *deleteFromStartDouble(struct doubleNode *first)
+{
+    if (first == NULL)
+    {
+        printf("empty list\n");
+        return NULL;
+    }
+    else if (first->next == NULL)
+    {
+        printf("one elem\n");
+        free(first);
+        return NULL;
+    }
+    else
+    {
+        printf("multiple elements\n");
+        struct doubleNode *newFirst = first->next;
+        newFirst->prev = NULL;
+        free(first);
+        return newFirst;
+    }
+}
+
 void main()
 {
 
@@ -130,7 +153,9 @@ void main()
 
     elem1->next = elem2;
 
-    struct doubleNode *newList = insertIntoPositionDouble(elem1, 102, 2);
+    traverseDouble(*elem1);
+
+    struct doubleNode *newList = deleteFromStartDouble(elem1);
 
     traverseDouble(*newList);
 }
