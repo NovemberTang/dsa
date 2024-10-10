@@ -87,22 +87,36 @@ void reverseTraverseDouble(struct doubleNode last)
     printf("\n");
 }
 
-void insertIntoPositionDouble(struct doubleNode *first, int value, int pos)
+struct doubleNode *insertIntoPositionDouble(struct doubleNode *first, int value, int pos)
 {
-    struct doubleNode *current = first;
-    int i = 0;
-    while (current->next != NULL && i < pos - 1)
+    if (pos == 0)
     {
-        current = current->next;
-        i++;
+        struct doubleNode *newNode = malloc(sizeof(struct doubleNode));
+        *newNode = (struct doubleNode){value, first, NULL};
+        first->prev = newNode;
+        return newNode;
     }
-    printf("Arrived at position %d, value %d\n", i, current->value);
+    else
+    {
+        struct doubleNode *current = first;
+        int i = 0;
+        while (current->next != NULL && i < pos - 1)
+        {
+            current = current->next;
+            i++;
+        }
+        printf("Arrived at position %d, value %d\n", i, current->value);
 
-    struct doubleNode *newNode = malloc(sizeof(struct doubleNode));
-    *newNode = (struct doubleNode){value, current->next, current};
-    struct doubleNode *next = current->next;
-    next->prev = newNode;
-    current->next = newNode;
+        struct doubleNode *newNode = malloc(sizeof(struct doubleNode));
+        *newNode = (struct doubleNode){value, current->next, current};
+        if (current->next != NULL)
+        {
+            struct doubleNode *next = current->next;
+            next->prev = newNode;
+        }
+        current->next = newNode;
+        return first;
+    }
 }
 
 void main()
@@ -116,8 +130,7 @@ void main()
 
     elem1->next = elem2;
 
-    // TODO fix for beginning/end of list edge cases.
-    insertIntoPositionDouble(elem1, 102, 0);
+    struct doubleNode *newList = insertIntoPositionDouble(elem1, 102, 2);
 
-    traverseDouble(*elem1);
+    traverseDouble(*newList);
 }
