@@ -164,7 +164,40 @@ struct doubleNode *deleteFromEndDouble(struct doubleNode *first)
     }
 }
 
-void main()
+struct doubleNode *deleteAfterIndexDouble(struct doubleNode *first, int pos)
+{
+    if (first == NULL) // no elements
+    {
+        return NULL;
+    }
+    else
+    {
+        struct doubleNode *current = first;
+        for (int i = 0; i < pos; i++)
+        {
+            current = current->next;
+            if (current->next == NULL)
+            {
+                printf("No next element\n");
+                return first;
+            }
+        }
+
+        printf("Arrived at position %d, value %d\n", pos, current->value);
+        struct doubleNode *newNextNode = current->next->next; // do null check
+
+        free(current->next); // TODO make sure this isn't null
+        current->next = newNextNode;
+        printf("%d\n", newNextNode);
+        if (newNextNode != NULL)
+        {
+            newNextNode->prev = current;
+        }
+        return first;
+    }
+}
+
+int main()
 {
 
     struct doubleNode *elem1 = malloc(sizeof(struct doubleNode));
@@ -177,7 +210,9 @@ void main()
 
     traverseDouble(*elem1);
 
-    struct doubleNode *newList = deleteFromStartDouble(elem1);
+    struct doubleNode *newList = deleteAfterIndexDouble(elem1, 0);
 
     traverseDouble(*newList);
+
+    return 0;
 }
