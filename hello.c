@@ -121,14 +121,12 @@ struct doubleNode *insertIntoPositionDouble(struct doubleNode *first, int value,
 
 struct doubleNode *deleteFromStartDouble(struct doubleNode *first)
 {
-    if (first == NULL)
+    if (first == NULL) // no elements
     {
-        printf("empty list\n");
         return NULL;
     }
-    else if (first->next == NULL)
+    else if (first->next == NULL) // one element
     {
-        printf("one elem\n");
         free(first);
         return NULL;
     }
@@ -139,6 +137,30 @@ struct doubleNode *deleteFromStartDouble(struct doubleNode *first)
         newFirst->prev = NULL;
         free(first);
         return newFirst;
+    }
+}
+
+struct doubleNode *deleteFromEndDouble(struct doubleNode *first)
+{
+    if (first == NULL) // no elements
+    {
+        return NULL;
+    }
+    else if (first->next == NULL) // one element
+    {
+        free(first);
+        return NULL;
+    }
+    else
+    {
+        struct doubleNode *current = first;
+        while (current->next != NULL)
+        {
+            current = current->next;
+        }
+        current->prev->next = NULL;
+        free(current);
+        return first;
     }
 }
 
