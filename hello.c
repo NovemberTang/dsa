@@ -106,18 +106,48 @@ void deleteFirstNodeHeaderLinkedList(struct header *header)
         header->length--;
     }
 }
+
+struct queueHeader
+{
+    struct node *firstNode;
+    struct node *lastNode;
+};
+
+void appendToQueue(struct queueHeader *header, int value)
+{
+    struct node *newNode = malloc(sizeof(struct node));
+    *newNode = (struct node){value, NULL};
+    if (header->firstNode == NULL)
+    {
+        header->firstNode = newNode;
+    }
+    else
+    {
+        header->lastNode->next = newNode;
+    }
+    header->lastNode = newNode;
+}
+
+void traverseQueue(struct queueHeader *header)
+{
+    if (header->firstNode == NULL)
+    {
+        printf("No elements in list\n");
+    }
+    else
+    {
+        traverse(*header->firstNode);
+    }
+}
+
 int main()
 {
-    struct header *header = malloc(sizeof(struct header));
-    *header = (struct header){0, NULL};
+    struct queueHeader *header = malloc(sizeof(struct queueHeader));
+    *header = (struct queueHeader){NULL, NULL};
 
-    appendToHeaderLinkedList(header, 2);
-    appendToHeaderLinkedList(header, 3);
-    traverseHeaderLinkedList(header);
-    printf("%d\n", header->length);
-
-    deleteFirstNodeHeaderLinkedList(header);
-    traverseHeaderLinkedList(header);
+    appendToQueue(header, 2);
+    appendToQueue(header, 3);
+    traverseQueue(header);
 
     return 0;
 }
