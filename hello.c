@@ -4,6 +4,7 @@
 #include "arrayUtils.h"
 #include "mergeAndSort.h"
 #include "doublyLinkedList.h"
+#include "linkedList.h"
 
 int findIndex(int *arr, int value, int arr_len)
 {
@@ -57,22 +58,55 @@ void print3dArray(int arr[2][2][2])
     }
 }
 
+struct header
+{
+    int length;
+    struct node *next;
+};
+
+void appendToHeaderLinkedList(struct header *header, int value)
+{
+    struct node *lastNode = malloc(sizeof(struct node));
+    *lastNode = (struct node){value, NULL};
+    if (header->next == NULL)
+    {
+        header->next = lastNode;
+        header->length = 1;
+    }
+    else
+    {
+        // TODO investigate if we can replace this with an existing linkedList.h function
+        struct node *current = header->next;
+        while (current->next != NULL)
+        {
+            current = current->next;
+        }
+        // Now, current->next == NULL
+        current->next = lastNode;
+        header->length++;
+    }
+}
+
+void traverseHeaderLinkedList(struct header *header)
+{
+    if (header->next == NULL)
+    {
+        printf("No elements in list\n");
+    }
+    else
+    {
+        traverse(*header->next);
+    }
+}
 int main()
 {
+    struct header *header = malloc(sizeof(struct header));
+    *header = (struct header){0, NULL};
 
-    struct doubleNode *elem1 = malloc(sizeof(struct doubleNode));
-    *elem1 = (struct doubleNode){100, NULL, NULL};
-
-    struct doubleNode *elem2 = malloc(sizeof(struct doubleNode));
-    *elem2 = (struct doubleNode){101, NULL, elem1};
-
-    elem1->next = elem2;
-
-    traverseDouble(*elem1);
-
-    struct doubleNode *newList = deleteAfterIndexDouble(elem1, 0);
-
-    traverseDouble(*newList);
+    appendToHeaderLinkedList(header, 2);
+    appendToHeaderLinkedList(header, 3);
+    traverseHeaderLinkedList(header);
+    printf("%d\n", header->length);
 
     return 0;
 }
