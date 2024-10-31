@@ -113,7 +113,7 @@ struct queueHeader
     struct node *lastNode;
 };
 
-void appendToQueue(struct queueHeader *header, int value)
+void pushQueue(struct queueHeader *header, int value)
 {
     struct node *newNode = malloc(sizeof(struct node));
     *newNode = (struct node){value, NULL};
@@ -132,11 +132,35 @@ void traverseQueue(struct queueHeader *header)
 {
     if (header->firstNode == NULL)
     {
-        printf("No elements in list\n");
+        printf("No elements in queue\n");
     }
     else
     {
         traverse(*header->firstNode);
+    }
+}
+
+int popQueue(struct queueHeader *header)
+{
+    if (header->firstNode == NULL)
+    {
+        printf("No elements in queue\n");
+        return -1;
+    }
+    else
+    {
+        struct node *firstNode = header->firstNode;
+        int returnValue = firstNode->value;
+        struct node *secondNode = firstNode->next;
+        header->firstNode = secondNode;
+        free(firstNode);
+
+        if (header->firstNode == NULL)
+        {
+            header->lastNode = NULL;
+        }
+
+        return returnValue;
     }
 }
 
@@ -145,9 +169,12 @@ int main()
     struct queueHeader *header = malloc(sizeof(struct queueHeader));
     *header = (struct queueHeader){NULL, NULL};
 
-    appendToQueue(header, 2);
-    appendToQueue(header, 3);
+    pushQueue(header, 2);
+    // pushQueue(header, 3);
+    int x = popQueue(header);
+    printf("Popped %d\n", x);
     traverseQueue(header);
+    printf("%d\n", header->lastNode);
 
     return 0;
 }
