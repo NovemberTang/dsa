@@ -92,6 +92,22 @@ void traverseHeaderLinkedList(struct header *header)
         traverse(*header->next);
     }
 }
+
+void deleteFirstNodeHeaderLinkedList(struct header *header)
+{
+    if (header->next == NULL)
+    {
+        printf("No elements in list\n");
+    }
+    else
+    {
+        struct node *currentFirstNode = header->next;
+        struct node *newFirstNode = header->next->next;
+        header->next = newFirstNode;
+        header->length--;
+        free(currentFirstNode);
+    }
+}
 int main()
 {
     struct header *header = malloc(sizeof(struct header));
@@ -101,6 +117,9 @@ int main()
     appendToHeaderLinkedList(header, 3);
     traverseHeaderLinkedList(header);
     printf("%d\n", header->length);
+
+    deleteFirstNodeHeaderLinkedList(header);
+    traverseHeaderLinkedList(header);
 
     return 0;
 }
