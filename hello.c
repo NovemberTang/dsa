@@ -101,11 +101,9 @@ void deleteFirstNodeHeaderLinkedList(struct header *header)
     }
     else
     {
-        struct node *currentFirstNode = header->next;
-        struct node *newFirstNode = header->next->next;
-        header->next = newFirstNode;
+        struct node *firstNode = deleteHeadOfLinkedList(header->next);
+        header->next = firstNode;
         header->length--;
-        free(currentFirstNode);
     }
 }
 int main()
