@@ -75,14 +75,8 @@ void appendToHeaderLinkedList(struct header *header, int value)
     }
     else
     {
-        // TODO investigate if we can replace this with an existing linkedList.h function
         struct node *current = header->next;
-        while (current->next != NULL)
-        {
-            current = current->next;
-        }
-        // Now, current->next == NULL
-        current->next = lastNode;
+        appendToLinkedList(current, value);
         header->length++;
     }
 }
