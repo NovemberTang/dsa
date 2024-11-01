@@ -174,3 +174,54 @@ struct node *reverseLinkedList(struct node *first)
     }
     return prev;
 }
+
+// Header linked list
+
+struct header
+{
+    int length;
+    struct node *next;
+};
+
+void appendToHeaderLinkedList(struct header *header, int value)
+{
+    struct node *lastNode = malloc(sizeof(struct node));
+    *lastNode = (struct node){value, NULL};
+    if (header->next == NULL)
+    {
+        header->next = lastNode;
+        header->length = 1;
+    }
+    else
+    {
+        struct node *current = header->next;
+        appendToLinkedList(current, value);
+        header->length++;
+    }
+}
+
+void traverseHeaderLinkedList(struct header *header)
+{
+    if (header->next == NULL)
+    {
+        printf("No elements in list\n");
+    }
+    else
+    {
+        traverse(*header->next);
+    }
+}
+
+void deleteFirstNodeHeaderLinkedList(struct header *header)
+{
+    if (header->next == NULL)
+    {
+        printf("No elements in list\n");
+    }
+    else
+    {
+        struct node *firstNode = deleteHeadOfLinkedList(header->next);
+        header->next = firstNode;
+        header->length--;
+    }
+}

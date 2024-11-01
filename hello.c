@@ -1,10 +1,7 @@
 #include <stdio.h>  //for printf()
 #include <stdlib.h> //for malloc() and NULL
-#include "insertAndDelete.h"
 #include "arrayUtils.h"
-#include "mergeAndSort.h"
-#include "doublyLinkedList.h"
-#include "linkedList.h"
+#include "queue.h"
 
 int findIndex(int *arr, int value, int arr_len)
 {
@@ -55,112 +52,6 @@ void print3dArray(int arr[2][2][2])
         {
             printArray(arr[i][j], 2);
         }
-    }
-}
-
-struct header
-{
-    int length;
-    struct node *next;
-};
-
-void appendToHeaderLinkedList(struct header *header, int value)
-{
-    struct node *lastNode = malloc(sizeof(struct node));
-    *lastNode = (struct node){value, NULL};
-    if (header->next == NULL)
-    {
-        header->next = lastNode;
-        header->length = 1;
-    }
-    else
-    {
-        struct node *current = header->next;
-        appendToLinkedList(current, value);
-        header->length++;
-    }
-}
-
-void traverseHeaderLinkedList(struct header *header)
-{
-    if (header->next == NULL)
-    {
-        printf("No elements in list\n");
-    }
-    else
-    {
-        traverse(*header->next);
-    }
-}
-
-void deleteFirstNodeHeaderLinkedList(struct header *header)
-{
-    if (header->next == NULL)
-    {
-        printf("No elements in list\n");
-    }
-    else
-    {
-        struct node *firstNode = deleteHeadOfLinkedList(header->next);
-        header->next = firstNode;
-        header->length--;
-    }
-}
-
-struct queueHeader
-{
-    struct node *firstNode;
-    struct node *lastNode;
-};
-
-void pushQueue(struct queueHeader *header, int value)
-{
-    struct node *newNode = malloc(sizeof(struct node));
-    *newNode = (struct node){value, NULL};
-    if (header->firstNode == NULL)
-    {
-        header->firstNode = newNode;
-    }
-    else
-    {
-        header->lastNode->next = newNode;
-    }
-    header->lastNode = newNode;
-}
-
-void traverseQueue(struct queueHeader *header)
-{
-    if (header->firstNode == NULL)
-    {
-        printf("No elements in queue\n");
-    }
-    else
-    {
-        traverse(*header->firstNode);
-    }
-}
-
-int popQueue(struct queueHeader *header)
-{
-    if (header->firstNode == NULL)
-    {
-        printf("No elements in queue\n");
-        return -1;
-    }
-    else
-    {
-        struct node *firstNode = header->firstNode;
-        int returnValue = firstNode->value;
-        struct node *secondNode = firstNode->next;
-        header->firstNode = secondNode;
-        free(firstNode);
-
-        if (header->firstNode == NULL)
-        {
-            header->lastNode = NULL;
-        }
-
-        return returnValue;
     }
 }
 
