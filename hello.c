@@ -2,6 +2,7 @@
 #include <stdlib.h> //for malloc() and NULL
 #include "arrayUtils.h"
 #include "queue.h"
+#include "linkedList.h"
 
 int findIndex(int *arr, int value, int arr_len)
 {
@@ -55,17 +56,55 @@ void print3dArray(int arr[2][2][2])
     }
 }
 
+struct ringBuffer
+{
+    int lastReadAddress;
+    int nextWriteAddress;
+    int *array;
+    int arrayLength;
+};
+
+int readRingBuffer(struct ringBuffer *r)
+{
+    int nextAddress = (r->lastReadAddress + 1) % r->arrayLength;
+    printf("Reading value from position %d\n", nextAddress);
+    int valueToRead = r->array[nextAddress];
+    r->lastReadAddress = nextAddress;
+    return valueToRead;
+}
+
+void writeRingBuffer(struct ringBuffer *r, int value)
+{
+    printf("Writing value %d to position %d\n", value, r->nextWriteAddress);
+    r->array[r->nextWriteAddress] = value;
+    r->nextWriteAddress = (r->nextWriteAddress + 1) % r->arrayLength;
+}
+
 int main()
 {
     struct queueHeader *header = malloc(sizeof(struct queueHeader));
     *header = (struct queueHeader){NULL, NULL};
 
-    pushQueue(header, 2);
-    // pushQueue(header, 3);
-    int x = popQueue(header);
-    printf("Popped %d\n", x);
-    traverseQueue(header);
-    printf("%d\n", header->lastNode);
+    int arr[5] = {10,
+                  20,
+                  30,
+                  40,
+                  50};
+
+    struct ringBuffer *myBuffer = malloc(sizeof(struct ringBuffer));
+    *myBuffer = (struct ringBuffer){
+        -1, 0, arr, 5};
+
+    writeRingBuffer(myBuffer, 1);
+    writeRingBuffer(myBuffer, 1);
+    writeRingBuffer(myBuffer, 1);
+    writeRingBuffer(myBuffer, 1);
+    writeRingBuffer(myBuffer, 2);
+    writeRingBuffer(myBuffer, 2);
+
+    printf("%d\n", readRingBuffer(myBuffer));
+    printf("%d\n", readRingBuffer(myBuffer));
+    printf("%d\n", readRingBuffer(myBuffer));
 
     return 0;
 }
