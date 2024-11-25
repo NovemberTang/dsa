@@ -80,31 +80,74 @@ void writeRingBuffer(struct ringBuffer *r, int value)
     r->nextWriteAddress = (r->nextWriteAddress + 1) % r->arrayLength;
 }
 
+//PRIORITY QUEUE
+
+// or typedef struct pq_node if it fails{
+typedef struct pq_node{
+    int priority;
+    int value;
+    struct pq_node* next;
+}pq_node;
+
+typedef struct {
+    pq_node* first;
+}priority_queue;
+
+pq_node* findLastElementWithPriorityX(int priority, priority_queue *queue){
+ pq_node* current = queue->first;
+ printf("priority: %d, value: %d\n", current->priority, current->value);
+ if(current == NULL){
+    printf("Nothing here!\n");
+    return NULL;
+ }
+ while(current->next != NULL && current->next->priority < priority+1){
+    current = current->next;
+    printf("priority: %d, value: %d\n", current->priority, current->value);
+ }
+ return current;
+
+};
+
+void insertIntoQueue(int priority, int value, priority_queue *queue){
+    pq_node* lastNodeWithHigherPriority = findLastElementWithPriorityX(priority, queue);
+
+    pq_node *newNode = malloc(sizeof(pq_node));
+    *newNode = (pq_node){priority, value, NULL};
+
+    if(lastNodeWithHigherPriority == NULL){
+        queue->first = newNode;
+    }
+    else {
+        pq_node* firstElementWithLowerPriority = lastNodeWithHigherPriority->next;
+        newNode->next = firstElementWithLowerPriority;
+        lastNodeWithHigherPriority->next = newNode;
+    }
+}
+
+void traversePriorityQueue(priority_queue *queue){
+    pq_node* current = queue->first;
+    printf("\n\npriority: %d, value: %d\n", current->priority, current->value);
+    while(current->next !=NULL){
+        current = current->next;
+        printf("priority: %d, value: %d\n", current->priority, current->value);
+    }
+    
+
+}
+
 int main()
 {
-    struct queueHeader *header = malloc(sizeof(struct queueHeader));
-    *header = (struct queueHeader){NULL, NULL};
 
-    int arr[5] = {10,
-                  20,
-                  30,
-                  40,
-                  50};
+    pq_node *myNode2 = malloc(sizeof(pq_node));
+    *myNode2= (pq_node){3,0,NULL};
 
-    struct ringBuffer *myBuffer = malloc(sizeof(struct ringBuffer));
-    *myBuffer = (struct ringBuffer){
-        -1, 0, arr, 5};
+    pq_node *myNode = malloc(sizeof(pq_node));
+    *myNode= (pq_node){1,0,myNode2};
 
-    writeRingBuffer(myBuffer, 1);
-    writeRingBuffer(myBuffer, 1);
-    writeRingBuffer(myBuffer, 1);
-    writeRingBuffer(myBuffer, 1);
-    writeRingBuffer(myBuffer, 2);
-    writeRingBuffer(myBuffer, 2);
+    priority_queue *myQueue = malloc(sizeof(priority_queue));
+    *myQueue = (priority_queue){myNode};
 
-    printf("%d\n", readRingBuffer(myBuffer));
-    printf("%d\n", readRingBuffer(myBuffer));
-    printf("%d\n", readRingBuffer(myBuffer));
-
+    insertIntoQueue(4, 1, myQueue);
+    traversePriorityQueue(myQueue);
     return 0;
 }
