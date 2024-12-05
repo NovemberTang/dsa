@@ -81,8 +81,6 @@ void writeRingBuffer(struct ringBuffer *r, int value)
 }
 
 //PRIORITY QUEUE
-
-// or typedef struct pq_node if it fails{
 typedef struct pq_node{
     int priority;
     int value;
@@ -135,6 +133,14 @@ void traversePriorityQueue(priority_queue *queue){
 
 }
 
+int popPriorityQueue(priority_queue *queue){
+    int poppedValue = queue->first->value;
+    pq_node* newHead = queue->first->next;
+    free(queue->first);
+    queue->first = newHead;
+    return poppedValue;
+}
+
 int main()
 {
 
@@ -147,7 +153,11 @@ int main()
     priority_queue *myQueue = malloc(sizeof(priority_queue));
     *myQueue = (priority_queue){myNode};
 
-    insertIntoQueue(4, 1, myQueue);
+    insertIntoQueue(2, 1, myQueue);
+    traversePriorityQueue(myQueue);
+
+    int x = popPriorityQueue(myQueue);
+    printf("\n%d\n", x);
     traversePriorityQueue(myQueue);
     return 0;
 }
