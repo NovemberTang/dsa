@@ -106,7 +106,7 @@ void pop(irdeq* queue){ //remove the last element
 
     if(queue->rear == NULL){
         printf("Taking no action, queue is empty\n"); //TODO fix this. it's not working
-        traverseDouble(*queue->front);
+        traverseDouble(queue->front);
     }
     
     else if(queue->rear->prev == NULL){
@@ -114,14 +114,15 @@ void pop(irdeq* queue){ //remove the last element
         queue->front = NULL;
         queue->rear = NULL;
         free(current_rear);
-        traverseDouble(*queue->front);
+        traverseDouble(queue->front);
     }
     else {
+        printf("Queue has more than one element, removing the last one\n");
         doubleNode* new_rear = queue->rear->prev;
         queue->rear = new_rear;
         new_rear->next = NULL;
         free(current_rear);
-        traverseDouble(*queue->front);
+        traverseDouble(queue->front);
     }
 }
 
@@ -140,7 +141,7 @@ int main()
 
     struct irdeq myQueue = {myNode1, myNode2};
 
-    traverseDouble(*(myQueue.front));
+    traverseDouble(myQueue.front);
     pop(&myQueue);
     pop(&myQueue);
     pop(&myQueue);

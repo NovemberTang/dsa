@@ -5,7 +5,7 @@ typedef struct doubleNode
     struct doubleNode *prev;
 }doubleNode;
 
-void traverseDouble(struct doubleNode first); //TODO remove struct from here and the actual function definition
+void traverseDouble(struct doubleNode* first); //TODO remove struct from here and the actual function definition
 
 void reverseTraverseDouble(struct doubleNode last);
 
