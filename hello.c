@@ -2,7 +2,7 @@
 #include <stdlib.h> //for malloc() and NULL
 #include "arrayUtils.h"
 #include "queue.h"
-#include "linkedList.h"
+#include "doublyLinkedList.h"
 #include "priorityQueue.h"
 
 int findIndex(int *arr, int value, int arr_len)
@@ -81,23 +81,36 @@ void writeRingBuffer(struct ringBuffer *r, int value)
     r->nextWriteAddress = (r->nextWriteAddress + 1) % r->arrayLength;
 }
 
+
+//irdeq = input restricted double ended queue
+typedef struct irdeq{
+ struct doubleNode* front;
+ struct doubleNode* rear;
+} irdeq;
+
+void insert_irdeq(irdeq* queue, int value){
+//add to the end
+
+ struct doubleNode* current_rear = queue->rear;
+ struct doubleNode* new_rear = malloc(sizeof(doubleNode));
+ *new_rear= (doubleNode){value, NULL, current_rear};
+ current_rear->next = new_rear;
+ queue->rear = new_rear;
+
+}
+
 int main()
 {
 
-    pq_node *myNode2 = malloc(sizeof(pq_node));
-    *myNode2= (pq_node){3,0,NULL};
+    doubleNode *myNode1 = malloc(sizeof(doubleNode));
+    doubleNode *myNode2 = malloc(sizeof(doubleNode));
 
-    pq_node *myNode = malloc(sizeof(pq_node));
-    *myNode= (pq_node){1,0,myNode2};
+    *myNode1 = (doubleNode){0, myNode2, NULL};
+    *myNode2 = (doubleNode){1, NULL, myNode1};
 
-    priority_queue *myQueue = malloc(sizeof(priority_queue));
-    *myQueue = (priority_queue){myNode};
+    struct irdeq myQueue = {myNode1, myNode2};
 
-    insertIntoPriorityQueue(2, 1, myQueue);
-    traversePriorityQueue(myQueue);
+    printf("%d\n", myQueue.front->value);
 
-    int x = popPriorityQueue(myQueue);
-    printf("\n%d\n", x);
-    traversePriorityQueue(myQueue);
     return 0;
 }

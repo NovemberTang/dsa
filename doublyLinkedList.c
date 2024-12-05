@@ -2,7 +2,7 @@
 #include <stdlib.h> //for malloc() and NULL
 #include "doublyLinkedList.h"
 
-struct doubleNode doubleNode;
+struct doubleNode;
 
 void traverseDouble(struct doubleNode first)
 {

@@ -1,11 +1,11 @@
-struct doubleNode
+typedef struct doubleNode
 {
     int value;
     struct doubleNode *next;
     struct doubleNode *prev;
-};
+}doubleNode;
 
-void traverseDouble(struct doubleNode first);
+void traverseDouble(struct doubleNode first); //TODO remove struct from here and the actual function definition
 
 void reverseTraverseDouble(struct doubleNode last);
 
