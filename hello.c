@@ -111,22 +111,24 @@ else{
 
 }
 
+int sequential_search(int val, int *arr, int arraySize){
+    for(int i=0;i<arraySize;i++){
+        if(arr[i]==val)
+        return i;
+    }
+    printf("%d not found in array\n", val);
+    return -1;
+}
 
 int main()
 {
 
-    doubleNode *myNode1 = malloc(sizeof(doubleNode));
-    doubleNode *myNode2 = malloc(sizeof(doubleNode));
+    int arr[5] = {1,2,3,4,5};
 
-    *myNode1 = (doubleNode){2, myNode2, NULL};
-    *myNode2 = (doubleNode){1, NULL, myNode1};
-
-    struct irdeq myQueue = {myNode1, myNode2};
-
-    traverseDouble(myQueue.front);
-    shift(&myQueue);
-    shift(&myQueue);
-    shift(&myQueue);
+    int notfound = sequential_search(0, arr, 5);
+    printf("%d\n", notfound);
+    int found = sequential_search(4,arr, 5);
+    printf("%d\n", found);
 
     return 0;
 }
