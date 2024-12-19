@@ -4,7 +4,7 @@
 
 struct doubleNode;
 
-void traverseDouble(struct doubleNode *first)
+void traverseDouble(doubleNode *first)
 {
     if(first == NULL){
         printf("List is empty\n");
@@ -19,14 +19,14 @@ void traverseDouble(struct doubleNode *first)
     printf("\n");
 }
 
-void reverseTraverseDouble(struct doubleNode last) //TODO use pointer
+void reverseTraverseDouble(doubleNode *last)
 {
-    struct doubleNode current = last;
-    printf("%d ", current.value);
-    while (current.prev != NULL)
+    struct doubleNode *current = last;
+    printf("%d ", current->value);
+    while (current->prev != NULL)
     {
-        current = *current.prev;
-        printf("%d ", current.value);
+        current = current->prev;
+        printf("%d ", current->value);
     };
     printf("\n");
 }

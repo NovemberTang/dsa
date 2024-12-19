@@ -5,9 +5,9 @@ typedef struct doubleNode
     struct doubleNode *prev;
 }doubleNode;
 
-void traverseDouble(struct doubleNode* first); //TODO remove struct from here and the actual function definition
+void traverseDouble(doubleNode* first);
 
-void reverseTraverseDouble(struct doubleNode last);
+void reverseTraverseDouble(doubleNode* last);
 
 struct doubleNode *insertIntoPositionDouble(struct doubleNode *first, int value, int pos);
 
