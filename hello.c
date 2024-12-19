@@ -87,6 +87,28 @@ void pop(irdeq* queue){ //remove the last element
 }
 
 void shift(irdeq* queue){ //remove the first element. everything moves up one (in an array)
+
+if(queue->front == NULL){
+    printf("Queue is empty. Taking no action\n");
+    return;
+}
+else if(queue->front->next == NULL) {
+    printf("One element in queue. Removing it\n");
+    doubleNode* elem = queue->front;
+    free(elem);
+    queue->front = NULL;
+    queue->rear = NULL;
+
+}
+else{
+    printf("Removing the first element");
+    doubleNode* elem = queue->front;
+    doubleNode* newHead = queue->front->next;
+    queue->front = newHead;
+    free(elem);
+    traverseDouble(queue->front);
+}
+
 }
 
 
@@ -102,9 +124,9 @@ int main()
     struct irdeq myQueue = {myNode1, myNode2};
 
     traverseDouble(myQueue.front);
-    pop(&myQueue);
-    pop(&myQueue);
-    pop(&myQueue);
+    shift(&myQueue);
+    shift(&myQueue);
+    shift(&myQueue);
 
     return 0;
 }
