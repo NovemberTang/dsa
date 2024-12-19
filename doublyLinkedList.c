@@ -8,6 +8,7 @@ void traverseDouble(doubleNode *first)
 {
     if(first == NULL){
         printf("List is empty\n");
+        return;
     }
     struct doubleNode *current = first;
     printf("%d ", current->value);

@@ -64,20 +64,17 @@ void insert_irdeq(irdeq* queue, int value){
 
 void pop(irdeq* queue){ //remove the last element
 //TODO rename
-
     doubleNode* current_rear = queue->rear;
 
     if(queue->rear == NULL){
-        printf("Taking no action, queue is empty\n"); //TODO fix this. it's not working
-        traverseDouble(queue->front);
+        printf("Taking no action, queue is empty\n");
     }
     
     else if(queue->rear->prev == NULL){
-        printf("Queue only has one element\n");
+        printf("Queue only has one element. Removing it.\n");
         queue->front = NULL;
         queue->rear = NULL;
         free(current_rear);
-        traverseDouble(queue->front);
     }
     else {
         printf("Queue has more than one element, removing the last one\n");
@@ -99,7 +96,7 @@ int main()
     doubleNode *myNode1 = malloc(sizeof(doubleNode));
     doubleNode *myNode2 = malloc(sizeof(doubleNode));
 
-    *myNode1 = (doubleNode){0, myNode2, NULL};
+    *myNode1 = (doubleNode){2, myNode2, NULL};
     *myNode2 = (doubleNode){1, NULL, myNode1};
 
     struct irdeq myQueue = {myNode1, myNode2};
