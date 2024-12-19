@@ -33,6 +33,9 @@ int *search(struct node first, int value)
         printf("\nFound value %d!!\n", current->value);
         return &current->value;
     }
+    else{
+        return NULL; //This should never happen but keeps the compiler happy
+    }
 }
 
 struct node *prependToLinkedList(struct node *list, int value)

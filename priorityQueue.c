@@ -19,7 +19,7 @@ pq_node* findLastElementWithPriorityX(int priority, priority_queue *queue){
  }
  return current;
 
-};
+}
 
 void insertIntoPriorityQueue(int priority, int value, priority_queue *queue){
     pq_node* lastNodeWithHigherPriority = findLastElementWithPriorityX(priority, queue);
