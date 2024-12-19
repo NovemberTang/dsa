@@ -111,41 +111,10 @@ else{
 
 }
 
-int sequential_search(int val, int *arr, int arraySize){
-    for(int i=0;i<arraySize;i++){
-        if(arr[i]==val)
-        return i;
-    }
-    printf("%d not found in array\n", val);
-    return -1;
-}
-
-int binary_search(int val, int *arr, int start_pos, int end_pos){
-    int mid = (start_pos+end_pos)/2;
-    if(arr[mid] == val){
-        printf("position %d is correct\n", mid);
-        return mid;
-    }
-    else if(mid == start_pos){
-        printf("Nope.");
-        return -1;
-    }
-    else if(val < arr[mid]){
-        printf("position %d is too high. trying again\n", mid);
-        return binary_search(val, arr, start_pos, mid);
-    }
-    else if(val > arr[mid]){
-        printf("position %d is too low. trying again\n", mid);
-        return binary_search(val, arr, mid, end_pos);
-    }
-    printf("Something weird went wrong. I can't help you.\n")
-    return -1;
-}
-
 int main()
 {
 
     int arr[8] = {1,2,3,4,5,6,7,8};
 
-    binary_search(10, arr, 0, 7);
+    binary_search(1, arr, 0, 7);
 }
