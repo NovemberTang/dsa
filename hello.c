@@ -111,10 +111,35 @@ else{
 
 }
 
+int interpolation_search_imp(int value, int* arr, int low_pos, int high_pos){
+
+ int low = arr[low_pos];
+ int high = arr[high_pos];
+ int mid = low_pos + ((high_pos-low_pos) * (value-low)) / (high-low);
+
+ if(arr[mid]==value)
+ {
+    printf("%d: %d\n", mid, arr[mid]);
+    return arr[mid];
+ }
+ else if(value < arr[mid]){
+    return interpolation_search_imp(value, arr, low_pos, mid-1);
+ }
+ else { // if(value > arr[mid]){
+    return interpolation_search_imp(value, arr,mid+1, high_pos);
+ };
+
+}
+
+//SO we don't need to remember to decrement the array size to get the last element
+int interpolation_search(int value, int* arr, int arr_size){
+    return interpolation_search_imp(value, arr, 0, arr_size-1);
+}
+
 int main()
 {
 
-    int arr[8] = {1,2,3,4,5,6,7,8};
+    int arr[28] = {1,2,3,4,5,6,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8};
 
-    binary_search(1, arr, 0, 7);
+    interpolation_search(7, arr, 28);
 }
