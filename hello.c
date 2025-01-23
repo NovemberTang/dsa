@@ -106,10 +106,46 @@ void insertion_sort(int* arr, int arr_size){
 
 }
 
+void single_pass_swap(int* arr, int unsorted_arr_size, int arr_size){
+    for(int idx=1; idx<unsorted_arr_size; idx++){
+        if(arr[idx-1]<=arr[idx]){
+            printf("elements %d: %d and %d: %d are in the correct order\n", idx-1, arr[idx-1], idx, arr[idx]);
+            printArray(arr, arr_size);
+        }
+        else{
+            printf("swapping idx %d: %d and idx %d: %d\n",
+                idx-1, arr[idx-1], idx, arr[idx]
+            );
+            int tmp=arr[idx];
+            arr[idx]=arr[idx-1];
+            arr[idx-1]= tmp;
+            printArray(arr, arr_size);
+        }
+        printf("\n");
+    }
+
+}
+
+void bubble_sort(int* arr, int arr_size){
+    printArray(arr, arr_size);
+
+    int unsorted_arr_size=arr_size;
+    for(;unsorted_arr_size>0; unsorted_arr_size--){
+        if(unsorted_arr_size<2){
+            printf("Sorted!\n");
+            return;
+        }
+        printf("%d elements to be sorted.\n", unsorted_arr_size);
+        single_pass_swap(arr, unsorted_arr_size, arr_size);
+        printf("Position of element %d finalised.\n", unsorted_arr_size-1);
+    }
+
+}
+
 int main()
 {
 
     int array[5] = {2,1,6,0,8};
-    insertion_sort(array, 5);
+    bubble_sort(array, 5);
     printArray(array, 5);
 }
