@@ -136,10 +136,45 @@ int interpolation_search(int value, int* arr, int arr_size){
     return interpolation_search_imp(value, arr, 0, arr_size-1);
 }
 
+
+void placeUnsortedElem(int* arr, int first_unsorted_index){
+    for(int i=first_unsorted_index; i>0; i--){
+        if(arr[i-1]>arr[i]){
+        int tmp = arr[i];
+            arr[i]=arr[i-1];
+            arr[i-1]=tmp;
+        }
+        else{break;}
+    }
+}
+
+
+void insertion_sort(int* arr, int arr_size){
+    int last_sorted_index = 0;
+
+    for(;last_sorted_index<arr_size; last_sorted_index++){
+        int current_index = last_sorted_index+1;
+
+        if(arr[current_index]>=arr[last_sorted_index]){
+            //do nothing
+            continue;
+        }else{ //arr[current_index]<arr[last_sorted_index]
+            placeUnsortedElem(arr,current_index);
+        }
+    }
+
+    return;
+
+}
+
 int main()
 {
 
     int arr[28] = {1,2,3,4,5,6,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8};
 
     interpolation_search(7, arr, 28);
+
+    int array[3] = {2,1,6};
+    insertion_sort(array, 3);
+    printArray(array, 3);
 }
