@@ -1,9 +1,7 @@
 #include <stdio.h>  //for printf()
 #include <stdlib.h> //for malloc() and NULL
 #include "arrayUtils.h"
-#include "queue.h"
-#include "doublyLinkedList.h"
-#include "priorityQueue.h"
+#include "mergeAndSort.h"
 
 int findIndex(int *arr, int value, int arr_len)
 {
@@ -67,115 +65,6 @@ int interpolation_search_imp(int value, int* arr, int low_pos, int high_pos){
 //SO we don't need to remember to decrement the array size to get the last element
 int interpolation_search(int value, int* arr, int arr_size){
     return interpolation_search_imp(value, arr, 0, arr_size-1);
-}
-
-void placeUnsortedElem(int* arr, int arr_size, int first_unsorted_index){
-    for(int i=first_unsorted_index; i>0; i--){
-        if(arr[i-1]>arr[i]){
-            printf("swapping elements %d and %d\n", i, i-1);
-            int tmp = arr[i];
-            arr[i]=arr[i-1];
-            arr[i-1]=tmp;
-            printArray(arr, arr_size);
-        }
-        else{break;}
-    }
-}
-
-void insertion_sort(int* arr, int arr_size){
-    int last_sorted_index = 0;
-    for(;last_sorted_index<arr_size-1; last_sorted_index++){
-        int current_index = last_sorted_index+1;
-
-        if(arr[current_index]>=arr[last_sorted_index]){
-            printf("last sorted index: %d - array: ", last_sorted_index);
-            printArray(arr, arr_size);
-            //do nothing
-            continue;
-        }else{ //arr[current_index]<arr[last_sorted_index]
-            placeUnsortedElem(arr,arr_size, current_index);
-            printf("last sorted index: %d - array: ", last_sorted_index);
-            printArray(arr, arr_size);
-        }
-    }
-
-    return;
-
-}
-
-void single_pass_swap(int* arr, int unsorted_arr_size, int arr_size){
-    for(int idx=1; idx<unsorted_arr_size; idx++){
-        if(arr[idx-1]<=arr[idx]){
-            printf("elements %d: %d and %d: %d are in the correct order\n", idx-1, arr[idx-1], idx, arr[idx]);
-            printArray(arr, arr_size);
-        }
-        else{
-            printf("swapping idx %d: %d and idx %d: %d\n",
-                idx-1, arr[idx-1], idx, arr[idx]
-            );
-            int tmp=arr[idx];
-            arr[idx]=arr[idx-1];
-            arr[idx-1]= tmp;
-            printArray(arr, arr_size);
-        }
-        printf("\n");
-    }
-
-}
-
-void bubble_sort(int* arr, int arr_size){
-    printArray(arr, arr_size);
-    int unsorted_arr_size=arr_size;
-    for(;unsorted_arr_size>0; unsorted_arr_size--){
-        if(unsorted_arr_size<2){
-            printf("Sorted!\n");
-            return;
-        }
-        printf("%d elements to be sorted.\n", unsorted_arr_size);
-        single_pass_swap(arr, unsorted_arr_size, arr_size);
-        printf("Position of element %d finalised.\n", unsorted_arr_size-1);
-    }
-}
-
-
-void merge(int* arr, int start, int mid, int end){
-    int i = start;
-    int j = mid+1;
-    int k = 0;
-
-    printf("starting new merge between %d and %d\n", start, end);
-    int temp[end-start+1];
-    while(i<=mid || j <=end){
-        printf("i=%d, arr[i]=%d ----- j=%d, arr[j]=%d\n", i, arr[i], j, arr[j]);
-        if(i > mid || arr[i]>arr[j]){
-            printf("placing arr[j], %d into elem %d of placeholder array\n\n", arr[j], k);
-            temp[k] = arr[j];
-            j++;
-            k++;
-        }else if(j>end || arr[i] <= arr[j]){ //if arr[i] <= arr[j]
-            printf("placing arr[i], %d into elem %d of placeholder array\n\n", arr[i], k);
-            temp[k] = arr[i];
-            i++;
-            k++;
-        } //we could add both, and increment everything if they were equal. But why?
-    }
-
-    for(int x=0; x<k; x++){
-        arr[x+start]=temp[x];
-    }
-}
-
-void merge_sort(int* arr, int start, int end, int counter){
-
-if(start<end){
-    counter ++;
-    int mid = (start+end)/2;
-    printf("start: %d, middle: %d, end: %d\n", start, mid, end);
-    printf("rounds: %d\n\n", counter);
-    merge_sort(arr, start, mid, counter);
-    merge_sort(arr, mid+1, end, counter);
-    merge(arr, start, mid, end);
-}
 }
 
 int main()
