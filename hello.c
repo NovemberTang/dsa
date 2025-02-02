@@ -44,7 +44,6 @@ void writeRingBuffer(struct ringBuffer *r, int value)
     r->nextWriteAddress = (r->nextWriteAddress + 1) % r->arrayLength;
 }
 
-
 int interpolation_search_imp(int value, int* arr, int low_pos, int high_pos){
 
  int low = arr[low_pos];
@@ -70,7 +69,6 @@ int interpolation_search(int value, int* arr, int arr_size){
     return interpolation_search_imp(value, arr, 0, arr_size-1);
 }
 
-
 void placeUnsortedElem(int* arr, int arr_size, int first_unsorted_index){
     for(int i=first_unsorted_index; i>0; i--){
         if(arr[i-1]>arr[i]){
@@ -83,7 +81,6 @@ void placeUnsortedElem(int* arr, int arr_size, int first_unsorted_index){
         else{break;}
     }
 }
-
 
 void insertion_sort(int* arr, int arr_size){
     int last_sorted_index = 0;
@@ -128,7 +125,6 @@ void single_pass_swap(int* arr, int unsorted_arr_size, int arr_size){
 
 void bubble_sort(int* arr, int arr_size){
     printArray(arr, arr_size);
-
     int unsorted_arr_size=arr_size;
     for(;unsorted_arr_size>0; unsorted_arr_size--){
         if(unsorted_arr_size<2){
