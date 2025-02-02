@@ -135,13 +135,53 @@ void bubble_sort(int* arr, int arr_size){
         single_pass_swap(arr, unsorted_arr_size, arr_size);
         printf("Position of element %d finalised.\n", unsorted_arr_size-1);
     }
+}
 
+
+void merge(int* arr, int start, int mid, int end){
+    int i = start;
+    int j = mid+1;
+    int k = 0;
+
+    printf("starting new merge between %d and %d\n", start, end);
+    int temp[end-start+1];
+    while(i<=mid || j <=end){
+        printf("i=%d, arr[i]=%d ----- j=%d, arr[j]=%d\n", i, arr[i], j, arr[j]);
+        if(i > mid || arr[i]>arr[j]){
+            printf("placing arr[j], %d into elem %d of placeholder array\n\n", arr[j], k);
+            temp[k] = arr[j];
+            j++;
+            k++;
+        }else if(j>end || arr[i] <= arr[j]){ //if arr[i] <= arr[j]
+            printf("placing arr[i], %d into elem %d of placeholder array\n\n", arr[i], k);
+            temp[k] = arr[i];
+            i++;
+            k++;
+        } //we could add both, and increment everything if they were equal. But why?
+    }
+
+    for(int x=0; x<k; x++){
+        arr[x+start]=temp[x];
+    }
+}
+
+void merge_sort(int* arr, int start, int end, int counter){
+
+if(start<end){
+    counter ++;
+    int mid = (start+end)/2;
+    printf("start: %d, middle: %d, end: %d\n", start, mid, end);
+    printf("rounds: %d\n\n", counter);
+    merge_sort(arr, start, mid, counter);
+    merge_sort(arr, mid+1, end, counter);
+    merge(arr, start, mid, end);
+}
 }
 
 int main()
 {
 
     int array[5] = {2,1,6,0,8};
-    bubble_sort(array, 5);
+    merge_sort(array, 0, 4, 0);
     printArray(array, 5);
 }
