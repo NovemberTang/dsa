@@ -199,6 +199,7 @@ void merge(int* arr, int start, int mid, int end){
     }
 }
 
+//counter should always be 0 at the beginning
 void merge_sort(int* arr, int start, int end, int counter){
 
     if(start<end){

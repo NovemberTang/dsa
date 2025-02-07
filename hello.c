@@ -67,10 +67,74 @@ int interpolation_search(int value, int* arr, int arr_size){
     return interpolation_search_imp(value, arr, 0, arr_size-1);
 }
 
+//Selection sort ✅
+//Insertion sort ✅
+//Merge sort ✅
+//Bubble sort ✅
+//Quick sort
+
+void quick_sort(int* arr, int start, int end){
+
+printf("start: %d, end: %d\n", start, end);
+if(end<=start){
+    return;
+}
+
+int pos=start;
+
+printf("pivot: %d\n", arr[pos]);
+
+int swapped = 0; //Boolean. Initially set to true
+
+while(swapped==0){
+
+    swapped=1; //Set to false. If we perform a swap, set to true.
+
+    for(int right = end; right>pos; right--){
+        if(arr[right]<arr[pos]){
+            int a=arr[right];
+            int b=arr[pos];
+
+            printf("From right - a: %d, b: %d\n", a, b);
+
+            arr[right]=b;
+            arr[pos]=a;
+
+            printArray(arr, end+1);
+            pos=right;
+            swapped=0; //swapped = true
+            break;
+        }
+    }
+
+    for(int left=start; left<pos; left++){
+        if(arr[left]>arr[pos]){
+            int a=arr[left];
+            int b=arr[pos];
+
+            printf("From left - a: %d, b: %d\n", a, b);
+
+            arr[left]=b;
+            arr[pos]=a;
+
+            printArray(arr, end+1);
+            pos=left;
+            swapped=0; //swapped = true
+            break;
+        }
+    }
+    printf("\n");
+}
+
+quick_sort(arr, start, pos-1);
+quick_sort(arr, pos+1, end);
+}
+
 int main()
 {
 
-    int array[5] = {2,1,6,0,8};
-    merge_sort(array, 0, 4, 0);
-    printArray(array, 5);
+    int array[7] = {2,1,6,0, 8, 3, 15};
+    printArray(array, 7);
+    quick_sort(array, 0, 6);
+    printArray(array, 7);
 }
