@@ -212,3 +212,50 @@ void merge_sort(int* arr, int start, int end, int counter){
         merge(arr, start, mid, end);
     }
 }
+
+void quick_sort(int* arr, int start, int end){
+
+    printf("start: %d, end: %d\n", start, end);
+    if(end<=start){
+        return;
+    }
+
+    int pos=start;
+    printf("pivot: %d\n", arr[pos]);
+    int swapped = 0; //Boolean. Initially set to true
+
+    while(swapped==0){
+        swapped=1; //Set to false. If we perform a swap, set to true.
+
+        for(int right = end; right>pos; right--){
+            if(arr[right]<arr[pos]){
+                int a=arr[right];
+                int b=arr[pos];
+                printf("From right - a: %d, b: %d\n", a, b);
+                arr[right]=b;
+                arr[pos]=a;
+                printArray(arr, end+1);
+                pos=right;
+                swapped=0; //swapped = true
+                break;
+            }
+        }
+
+        for(int left=start; left<pos; left++){
+            if(arr[left]>arr[pos]){
+                int a=arr[left];
+                int b=arr[pos];
+                printf("From left - a: %d, b: %d\n", a, b);
+                arr[left]=b;
+                arr[pos]=a;
+                printArray(arr, end+1);
+                pos=left;
+                swapped=0; //swapped = true
+                break;
+            }
+        }
+        printf("\n");
+    }
+    quick_sort(arr, start, pos-1);
+    quick_sort(arr, pos+1, end);
+    }

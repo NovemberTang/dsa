@@ -1,7 +1,7 @@
 #include <stdio.h>  //for printf()
 #include <stdlib.h> //for malloc() and NULL
 #include "arrayUtils.h"
-#include "mergeAndSort.h"
+#include "linkedList.h"
 
 int findIndex(int *arr, int value, int arr_len)
 {
@@ -67,74 +67,34 @@ int interpolation_search(int value, int* arr, int arr_size){
     return interpolation_search_imp(value, arr, 0, arr_size-1);
 }
 
-//Selection sort ✅
-//Insertion sort ✅
-//Merge sort ✅
-//Bubble sort ✅
-//Quick sort
+//stacks
 
-void quick_sort(int* arr, int start, int end){
-
-printf("start: %d, end: %d\n", start, end);
-if(end<=start){
-    return;
+struct node *push_stack(struct node *stack, int value)
+{
+    return prependToLinkedList(stack, value);
 }
 
-int pos=start;
+struct node *pop_stack(struct node *stack)
+{
+    return deleteHeadOfLinkedList(stack);
+}
 
-printf("pivot: %d\n", arr[pos]);
-
-int swapped = 0; //Boolean. Initially set to true
-
-while(swapped==0){
-
-    swapped=1; //Set to false. If we perform a swap, set to true.
-
-    for(int right = end; right>pos; right--){
-        if(arr[right]<arr[pos]){
-            int a=arr[right];
-            int b=arr[pos];
-
-            printf("From right - a: %d, b: %d\n", a, b);
-
-            arr[right]=b;
-            arr[pos]=a;
-
-            printArray(arr, end+1);
-            pos=right;
-            swapped=0; //swapped = true
-            break;
-        }
+void peek_stack(struct node *stack)
+{
+    if(stack == NULL){
+        printf("Stack is empty, babe!\n");
+    } else {
+        printf("%d\n", stack->value);
     }
-
-    for(int left=start; left<pos; left++){
-        if(arr[left]>arr[pos]){
-            int a=arr[left];
-            int b=arr[pos];
-
-            printf("From left - a: %d, b: %d\n", a, b);
-
-            arr[left]=b;
-            arr[pos]=a;
-
-            printArray(arr, end+1);
-            pos=left;
-            swapped=0; //swapped = true
-            break;
-        }
-    }
-    printf("\n");
 }
 
-quick_sort(arr, start, pos-1);
-quick_sort(arr, pos+1, end);
-}
 
 int main()
 {
+    struct node *myNode = malloc(sizeof(struct node));
+    *myNode=(struct node){1, NULL};
+    struct node *newStack = push_stack(myNode, 3);
+    traverse(*newStack);
+    
 
-    int array[7] = {2,1,6,0, 8, 3, 15};
-    printArray(array, 7);
-    quick_sort(array, 0, 6);
-    printArray(array, 7);
 }
