@@ -62,18 +62,80 @@ int interpolation_search_imp(int value, int* arr, int low_pos, int high_pos){
 
 }
 
-//SO we don't need to remember to decrement the array size to get the last element
+//So we don't need to remember to decrement the array size to get the last element
 int interpolation_search(int value, int* arr, int arr_size){
     return interpolation_search_imp(value, arr, 0, arr_size-1);
 }
 
-//stacks
+struct treenode{
+    int value;
+    struct treenode *leftchild;
+    struct treenode *rightchild;
 
+};
+
+
+struct treenode *find_node(struct treenode *root, int value){
+
+    //takes the root node of a binary search tree.
+    if(root == NULL){
+        //tree is empty
+        printf("value not found. Tree is empty.\n");
+        return NULL;
+    }
+    else if(root->value==value){
+        printf("Found %d! \n", root->value);
+        return root;
+    }
+    else if(value < root->value && root->leftchild != NULL){
+        printf("search value %d is less than root value %d\n", value, root->value);
+        return find_node(root->leftchild, value);
+    }
+    else if(root->value < value && root->rightchild != NULL){
+        printf("search value %d is greater than root value %d\n", value, root->value);
+        return find_node(root->rightchild, value);
+    }
+    else{
+        printf("value not found. Ran out of children.\n");
+        return NULL; //No valid children left
+    }
+}
+
+struct treenode *tree_insert(struct treenode* root, int value){
+    if(root == NULL){
+        struct treenode* new_root = malloc(sizeof(struct treenode ));
+        new_root->value = value;
+        return new_root;
+    }
+    else{
+        return root; //TODO finish this
+    }
+}
 
 int main()
 {
-    char rpn_string[] = "35+72-*";
-    int x = rpn_evaluate(&rpn_string[0], 7);
-    printf("%d\n", x);
+
+    //      3
+    //   1     5
+    // 0         8
+
+
+    struct treenode *leftLeaf = malloc(sizeof(struct treenode));
+    *leftLeaf = (struct treenode){0, NULL, NULL};
+
+
+    struct treenode *left = malloc(sizeof(struct treenode));
+    *left = (struct treenode){1, leftLeaf, NULL};
+
+    struct treenode *rightLeaf = malloc(sizeof(struct treenode));
+    *rightLeaf = (struct treenode){8, NULL, NULL};
+
+    struct treenode *right = malloc(sizeof(struct treenode));
+    *right = (struct treenode){ 5, NULL, rightLeaf};
+
+    struct treenode *root = malloc(sizeof(struct treenode));
+    *root = (struct treenode){3, left, right};
+
+    find_node(NULL, 0);
 
 }
