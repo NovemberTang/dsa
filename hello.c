@@ -102,13 +102,39 @@ struct treenode *find_node(struct treenode *root, int value){
 }
 
 struct treenode *tree_insert(struct treenode* root, int value){
+    printf("current node = %d\n", root->value);
     if(root == NULL){
         struct treenode* new_root = malloc(sizeof(struct treenode ));
         new_root->value = value;
         return new_root;
     }
+    else if(root->value==value){
+        printf("%d already exists. exiting! \n", root->value);
+        return root;
+    }
+    else if(value < root->value && root->leftchild != NULL){
+        printf("new node %d < %d. moving to right child.\n\n", value, root->value);
+        return tree_insert(root->leftchild, value);
+    }
+    else if(value < root->value){
+        struct treenode* new_node = malloc(sizeof(struct treenode));
+        new_node->value = value;
+        root->leftchild = new_node;
+        printf("attached value %d as a left child of %d\n\n", value, root->value);
+    }
+    else if(value > root->value && root->rightchild != NULL){
+        printf("new node %d > %d. moving to right child\n\n", value, root->value);
+        return tree_insert(root->rightchild, value);
+    }
+    else if(value > root->value){
+        struct treenode* new_node = malloc(sizeof(struct treenode));
+        new_node->value = value;
+        root->rightchild = new_node;
+        printf("attached value %d as a right child of %d\n\n", value, root->value);
+    }
     else{
-        return root; //TODO finish this
+        printf("something weird is going on!");
+        return root; //No valid children left
     }
 }
 
@@ -136,6 +162,8 @@ int main()
     struct treenode *root = malloc(sizeof(struct treenode));
     *root = (struct treenode){3, left, right};
 
-    find_node(NULL, 0);
+    tree_insert(root, 10);
+    tree_insert(root, 9);
+    tree_insert(root, 1);
 
 }
