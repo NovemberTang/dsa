@@ -67,15 +67,15 @@ int interpolation_search(int value, int* arr, int arr_size){
     return interpolation_search_imp(value, arr, 0, arr_size-1);
 }
 
-struct treenode{
+struct tree_node{
     int value;
-    struct treenode *leftchild;
-    struct treenode *rightchild;
+    struct tree_node *leftchild;
+    struct tree_node *rightchild;
 
 };
 
 
-struct treenode *find_node(struct treenode *root, int value){
+struct tree_node *find_node(struct tree_node *root, int value){
 
     //takes the root node of a binary search tree.
     if(root == NULL){
@@ -101,10 +101,42 @@ struct treenode *find_node(struct treenode *root, int value){
     }
 }
 
-struct treenode *tree_insert(struct treenode* root, int value){
+struct tree_header
+{
+    struct tree_node *root;
+};
+
+struct tree_node* delete_leaf_imp(struct tree_node* current_node, int value){
+    if(current_node == NULL){
+        //tree is empty
+        printf("Value not found. Tree is empty.\n");
+        return current_node;
+    }
+    else if(value > current_node->value){
+        printf("Value not found. Turning right.\n");
+        current_node->rightchild =  delete_leaf_imp(current_node->rightchild, value);
+        return current_node;
+    }
+    else if(value < current_node->value){
+        printf("Value not found. Turning left.\n");
+        current_node->leftchild = delete_leaf_imp(current_node->leftchild, value);
+        return current_node;
+    }
+    else if(current_node->value == value){
+        printf("Value found. Deleting it.\n");
+        return NULL;
+    }
+}
+
+ void delete_leaf(struct tree_header* header, int value){
+    header->root = delete_leaf_imp(header->root, value);
+}
+
+//handle an illegal insertion
+struct tree_node *tree_insert(struct tree_node* root, int value){
     printf("current node = %d\n", root->value);
     if(root == NULL){
-        struct treenode* new_root = malloc(sizeof(struct treenode ));
+        struct tree_node* new_root = malloc(sizeof(struct tree_node ));
         new_root->value = value;
         return new_root;
     }
@@ -117,7 +149,7 @@ struct treenode *tree_insert(struct treenode* root, int value){
         return tree_insert(root->leftchild, value);
     }
     else if(value < root->value){
-        struct treenode* new_node = malloc(sizeof(struct treenode));
+        struct tree_node* new_node = malloc(sizeof(struct tree_node));
         new_node->value = value;
         root->leftchild = new_node;
         printf("attached value %d as a left child of %d\n\n", value, root->value);
@@ -127,7 +159,7 @@ struct treenode *tree_insert(struct treenode* root, int value){
         return tree_insert(root->rightchild, value);
     }
     else if(value > root->value){
-        struct treenode* new_node = malloc(sizeof(struct treenode));
+        struct tree_node* new_node = malloc(sizeof(struct tree_node));
         new_node->value = value;
         root->rightchild = new_node;
         printf("attached value %d as a right child of %d\n\n", value, root->value);
@@ -146,24 +178,25 @@ int main()
     // 0         8
 
 
-    struct treenode *leftLeaf = malloc(sizeof(struct treenode));
-    *leftLeaf = (struct treenode){0, NULL, NULL};
+    struct tree_node *leftLeaf = malloc(sizeof(struct tree_node));
+    *leftLeaf = (struct tree_node){0, NULL, NULL};
 
 
-    struct treenode *left = malloc(sizeof(struct treenode));
-    *left = (struct treenode){1, leftLeaf, NULL};
+    struct tree_node *left = malloc(sizeof(struct tree_node));
+    *left = (struct tree_node){1, leftLeaf, NULL};
 
-    struct treenode *rightLeaf = malloc(sizeof(struct treenode));
-    *rightLeaf = (struct treenode){8, NULL, NULL};
+    struct tree_node *rightLeaf = malloc(sizeof(struct tree_node));
+    *rightLeaf = (struct tree_node){8, NULL, NULL};
 
-    struct treenode *right = malloc(sizeof(struct treenode));
-    *right = (struct treenode){ 5, NULL, rightLeaf};
+    struct tree_node *right = malloc(sizeof(struct tree_node));
+    *right = (struct tree_node){ 5, NULL, rightLeaf};
 
-    struct treenode *root = malloc(sizeof(struct treenode));
-    *root = (struct treenode){3, left, right};
+    struct tree_node *root = malloc(sizeof(struct tree_node));
+    *root = (struct tree_node){3, left, right};
 
-    tree_insert(root, 10);
-    tree_insert(root, 9);
-    tree_insert(root, 1);
+    struct tree_header *header = malloc(sizeof(struct tree_header));
+    *header = (struct tree_header){root};
+
+    delete_leaf(header, 0);
 
 }
