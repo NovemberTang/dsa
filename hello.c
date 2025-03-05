@@ -153,6 +153,7 @@ struct tree_node *tree_insert(struct tree_node* root, int value){
         new_node->value = value;
         root->leftchild = new_node;
         printf("attached value %d as a left child of %d\n\n", value, root->value);
+        return root;
     }
     else if(value > root->value && root->rightchild != NULL){
         printf("new node %d > %d. moving to right child\n\n", value, root->value);
@@ -163,6 +164,7 @@ struct tree_node *tree_insert(struct tree_node* root, int value){
         new_node->value = value;
         root->rightchild = new_node;
         printf("attached value %d as a right child of %d\n\n", value, root->value);
+        return root;
     }
     else{
         printf("something weird is going on!");
