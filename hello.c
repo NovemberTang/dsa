@@ -216,22 +216,24 @@ int main()
     //   1     5
     // 0     4   8
 
-
-    struct tree_node *zero = malloc(sizeof(struct tree_node));
-    *zero = (struct tree_node){0, NULL, NULL};
+    //assmeble the right subtree
+    struct tree_node *eight = malloc(sizeof(struct tree_node));
+    *eight = (struct tree_node){8, NULL, NULL};
 
     struct tree_node *four = malloc(sizeof(struct tree_node));
     *four = (struct tree_node){4, NULL, NULL};
 
-    struct tree_node *one = malloc(sizeof(struct tree_node));
-    *one = (struct tree_node){1, zero, NULL};
-
-    struct tree_node *eight = malloc(sizeof(struct tree_node));
-    *eight = (struct tree_node){8, NULL, NULL};
-
     struct tree_node *five = malloc(sizeof(struct tree_node));
     *five = (struct tree_node){ 5, four, eight};
 
+    //assemble the left subtree
+    struct tree_node *zero = malloc(sizeof(struct tree_node));
+    *zero = (struct tree_node){0, NULL, NULL};
+
+    struct tree_node *one = malloc(sizeof(struct tree_node));
+    *one = (struct tree_node){1, zero, NULL};
+
+    //bring together at the root
     struct tree_node *three = malloc(sizeof(struct tree_node));
     *three = (struct tree_node){3, one, five};
 
