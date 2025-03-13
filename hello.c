@@ -106,12 +106,15 @@ struct tree_header
     struct tree_node *root;
 };
 
-struct tree_node* find_in_order_predecessor(struct tree_node* root){
-    struct tree_node* left_subtree_root = root->leftchild;
+struct tree_node* find_in_order_predecessor(struct tree_node* first){
+    printf("Finding in-order predecessor of %d\n", first->value);
+    struct tree_node* left_subtree_root = first->leftchild;
+    printf("first left is %d\n", left_subtree_root->value);
     struct tree_node* current_node = left_subtree_root;
     while(current_node->rightchild!=NULL){
         current_node = current_node->rightchild;
     }
+    printf("In order predecessor: %d\n", current_node->value);
     return current_node;
 
 }
@@ -133,23 +136,29 @@ struct tree_node* delete_leaf_imp(struct tree_node* current_node, int value){
         return current_node;
     }
     else if(current_node->value == value){
-        int leftIsNull = current_node->leftchild==NULL;
-        int rightIsNull = current_node->rightchild==NULL;
-        if(leftIsNull && rightIsNull){
-        printf("Value found. Deleting it.\n");
+        printf("Value %d found. Deleting it.\n", value);
+        int has_left_child = current_node->leftchild!=NULL;
+        printf("has left child: %d\n", has_left_child);
+
+        int has_right_child = current_node->rightchild!=NULL;
+        printf("has right child: %d\n", has_right_child);
+
+        if(!has_left_child && !has_right_child){
         free(current_node);
         return NULL;
         }
-        else if(!leftIsNull && !rightIsNull){
-            struct tree_node *to_delete = current_node;
-            struct tree_node *in_order_predecessor = find_in_order_predecessor(to_delete);
+        else if(has_left_child && has_right_child){
+            printf("Node %d has two children.\n", current_node->value);
+            struct tree_node *in_order_predecessor = find_in_order_predecessor(current_node);
+            current_node->value = in_order_predecessor->value;
+            struct tree_node *to_delete = in_order_predecessor; //this node will be removed and replaced by its left child. There are no right children.
+            in_order_predecessor = in_order_predecessor->leftchild;
             free(to_delete);
-            //TODO what about the children of the in_order predecessor??? and to_delete?
-            return in_order_predecessor;
+            return current_node;
         }
         else{//exactly one child is null
             printf("Value found with one child. Deleting it.\n");
-            struct tree_node *child = leftIsNull ? current_node->rightchild : current_node->leftchild;
+            struct tree_node *child = !has_left_child ? current_node->rightchild : current_node->leftchild;
             free(current_node);
             return child;
         }
@@ -205,29 +214,40 @@ int main()
 
     //      3
     //   1     5
-    // 0         8
+    // 0     4   8
 
 
-    struct tree_node *leftLeaf = malloc(sizeof(struct tree_node));
-    *leftLeaf = (struct tree_node){0, NULL, NULL};
+    struct tree_node *zero = malloc(sizeof(struct tree_node));
+    *zero = (struct tree_node){0, NULL, NULL};
 
+    struct tree_node *four = malloc(sizeof(struct tree_node));
+    *four = (struct tree_node){4, NULL, NULL};
 
-    struct tree_node *left = malloc(sizeof(struct tree_node));
-    *left = (struct tree_node){1, leftLeaf, NULL};
+    struct tree_node *one = malloc(sizeof(struct tree_node));
+    *one = (struct tree_node){1, zero, NULL};
 
-    struct tree_node *rightLeaf = malloc(sizeof(struct tree_node));
-    *rightLeaf = (struct tree_node){8, NULL, NULL};
+    struct tree_node *eight = malloc(sizeof(struct tree_node));
+    *eight = (struct tree_node){8, NULL, NULL};
 
-    struct tree_node *right = malloc(sizeof(struct tree_node));
-    *right = (struct tree_node){ 5, NULL, rightLeaf};
+    struct tree_node *five = malloc(sizeof(struct tree_node));
+    *five = (struct tree_node){ 5, four, eight};
 
-    struct tree_node *root = malloc(sizeof(struct tree_node));
-    *root = (struct tree_node){3, left, right};
+    struct tree_node *three = malloc(sizeof(struct tree_node));
+    *three = (struct tree_node){3, one, five};
 
     struct tree_header *header = malloc(sizeof(struct tree_header));
-    *header = (struct tree_header){root};
+    *header = (struct tree_header){three};
 
-    delete_leaf(header, 1);
-    find_node(header->root, 0);
+    //      3
+    //   1     4 <-Replaced 5
+    // 0     X   8
+
+    find_node(header->root, 8);
+    printf("\n");
+    delete_leaf(header, 5);
+    printf("\n");
+    find_node(header->root, 8);
+    printf("\n");
+    find_node(header->root, 5); //should not be found
 
 }
