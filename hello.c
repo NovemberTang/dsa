@@ -123,8 +123,23 @@ struct tree_node* delete_leaf_imp(struct tree_node* current_node, int value){
         return current_node;
     }
     else if(current_node->value == value){
+        int leftIsNull = current_node->leftchild==NULL;
+        int rightIsNull = current_node->rightchild==NULL;
+        if(leftIsNull && rightIsNull){
         printf("Value found. Deleting it.\n");
+        free(current_node);
         return NULL;
+        }
+        else if(!leftIsNull && !rightIsNull){
+            // free(current_node);
+            //????????
+        }
+        else{//exactly one child is null
+            printf("Value found with one child. Deleting it.\n");
+            struct tree_node *child = leftIsNull ? current_node->rightchild : current_node->leftchild;
+            free(current_node);
+            return child;
+        }
     }
 }
 
@@ -199,6 +214,7 @@ int main()
     struct tree_header *header = malloc(sizeof(struct tree_header));
     *header = (struct tree_header){root};
 
-    delete_leaf(header, 0);
+    delete_leaf(header, 1);
+    find_node(header->root, 0);
 
 }
