@@ -106,6 +106,16 @@ struct tree_header
     struct tree_node *root;
 };
 
+struct tree_node* find_in_order_predecessor(struct tree_node* root){
+    struct tree_node* left_subtree_root = root->leftchild;
+    struct tree_node* current_node = left_subtree_root;
+    while(current_node->rightchild!=NULL){
+        current_node = current_node->rightchild;
+    }
+    return current_node;
+
+}
+
 struct tree_node* delete_leaf_imp(struct tree_node* current_node, int value){
     if(current_node == NULL){
         //tree is empty
@@ -131,8 +141,11 @@ struct tree_node* delete_leaf_imp(struct tree_node* current_node, int value){
         return NULL;
         }
         else if(!leftIsNull && !rightIsNull){
-            // free(current_node);
-            //????????
+            struct tree_node *to_delete = current_node;
+            struct tree_node *in_order_predecessor = find_in_order_predecessor(to_delete);
+            free(to_delete);
+            //TODO what about the children of the in_order predecessor??? and to_delete?
+            return in_order_predecessor;
         }
         else{//exactly one child is null
             printf("Value found with one child. Deleting it.\n");
