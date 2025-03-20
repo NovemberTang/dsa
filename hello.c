@@ -172,6 +172,15 @@ struct tree_node *tree_insert(struct tree_node* root, int value){
     }
 }
 
+void delete_bst(struct tree_node* root){ //will this fill up a stack?
+    if(root != NULL){
+        delete_bst(root->leftchild);
+        delete_bst(root->rightchild);
+        printf("Deleting %d\n", root->value);
+        free(root);
+    }
+}
+
 int main()
 {
 
@@ -203,16 +212,6 @@ int main()
     struct tree_header *header = malloc(sizeof(struct tree_header));
     *header = (struct tree_header){three};
 
-    //      3
-    //   1     4 <-Replaced 5
-    // 0     X   8
-
-    find_node(header->root, 8);
-    printf("\n");
-    delete_node(header, 5);
-    printf("\n");
-    find_node(header->root, 8);
-    printf("\n");
-    find_node(header->root, 5); //should not be found
+    delete_bst(three);
 
 }
