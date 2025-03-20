@@ -181,6 +181,16 @@ void delete_bst(struct tree_node* root){ //will this fill up a stack?
     }
 }
 
+void mirror(struct tree_node* root){
+    if(root!= NULL){
+        mirror(root->leftchild);
+        mirror(root->rightchild);
+        struct tree_node *tmp = root->leftchild;
+        root->leftchild = root->rightchild;
+        root->rightchild = tmp;
+    }
+}
+
 int main()
 {
 
@@ -215,14 +225,9 @@ int main()
     struct tree_header *header = malloc(sizeof(struct tree_header));
     *header = (struct tree_header){three};
 
-    find_node(header->root, 8);
-    printf("\n");
-    delete_node(header, 6);
-    printf("\n");
-    find_node(header->root, 4);
-    printf("\n");
-    find_node(header->root, 6); //should not be found
-
-    // delete_bst(three);
-
+    printf("before\n");
+    printf("%d\n", three->rightchild->leftchild->leftchild->value);
+    mirror(three);
+    printf("after\n");
+    printf("%d\n", three->leftchild->rightchild->rightchild->value);
 }
