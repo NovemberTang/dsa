@@ -3,21 +3,6 @@
 #include "arrayUtils.h"
 #include "stack.h"
 
-int findIndex(int *arr, int value, int arr_len)
-{
-    int i;
-    for (i = 0; i < arr_len; i++)
-    {
-        if (arr[i] == value)
-        {
-            printf("Found value %d at position %d\n", value, i);
-            return i;
-        }
-    }
-    printf("Couldn't find value %d in array\n", value);
-    return -1; // couldn't find the value.
-}
-
 struct ringBuffer
 {
     int lastReadAddress;
@@ -42,36 +27,10 @@ void writeRingBuffer(struct ringBuffer *r, int value)
     r->nextWriteAddress = (r->nextWriteAddress + 1) % r->arrayLength;
 }
 
-int interpolation_search_imp(int value, int* arr, int low_pos, int high_pos){
-
- int low = arr[low_pos];
- int high = arr[high_pos];
- int mid = low_pos + ((high_pos-low_pos) * (value-low)) / (high-low);
-
- if(arr[mid]==value)
- {
-    printf("%d: %d\n", mid, arr[mid]);
-    return arr[mid];
- }
- else if(value < arr[mid]){
-    return interpolation_search_imp(value, arr, low_pos, mid-1);
- }
- else { // if(value > arr[mid]){
-    return interpolation_search_imp(value, arr,mid+1, high_pos);
- };
-
-}
-
-//So we don't need to remember to decrement the array size to get the last element
-int interpolation_search(int value, int* arr, int arr_size){
-    return interpolation_search_imp(value, arr, 0, arr_size-1);
-}
-
 struct tree_node{
     int value;
     struct tree_node *leftchild;
     struct tree_node *rightchild;
-
 };
 
 
