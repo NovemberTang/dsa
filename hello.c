@@ -119,7 +119,7 @@ struct tree_node* find_in_order_predecessor(struct tree_node* first){
 
 }
 
-struct tree_node* delete_leaf_imp(struct tree_node* current_node, int value){
+struct tree_node* delete_node_imp(struct tree_node* current_node, int value){
     if(current_node == NULL){
         //tree is empty
         printf("Value not found. Tree is empty.\n");
@@ -127,12 +127,12 @@ struct tree_node* delete_leaf_imp(struct tree_node* current_node, int value){
     }
     else if(value > current_node->value){
         printf("Value not found. Turning right.\n");
-        current_node->rightchild =  delete_leaf_imp(current_node->rightchild, value);
+        current_node->rightchild =  delete_node_imp(current_node->rightchild, value);
         return current_node;
     }
     else if(value < current_node->value){
         printf("Value not found. Turning left.\n");
-        current_node->leftchild = delete_leaf_imp(current_node->leftchild, value);
+        current_node->leftchild = delete_node_imp(current_node->leftchild, value);
         return current_node;
     }
     else if(current_node->value == value){
@@ -143,20 +143,24 @@ struct tree_node* delete_leaf_imp(struct tree_node* current_node, int value){
         int has_right_child = current_node->rightchild!=NULL;
         printf("has right child: %d\n", has_right_child);
 
-        if(!has_left_child && !has_right_child){
+        int has_no_children = !has_left_child && !has_right_child;
+        int has_two_children = has_left_child && has_right_child;
+        if(has_no_children){
         free(current_node);
         return NULL;
         }
-        else if(has_left_child && has_right_child){
+        else if(has_two_children){
             printf("Node %d has two children.\n", current_node->value);
             struct tree_node *in_order_predecessor = find_in_order_predecessor(current_node);
             current_node->value = in_order_predecessor->value;
-            struct tree_node *to_delete = in_order_predecessor; //this node will be removed and replaced by its left child. There are no right children.
+            // The in-order predecessor node will be removed and replaced by its left child.
+            // It has no right children.
+            struct tree_node *to_delete = in_order_predecessor;
             in_order_predecessor = in_order_predecessor->leftchild;
             free(to_delete);
             return current_node;
         }
-        else{//exactly one child is null
+        else{//has exactly one child
             printf("Value found with one child. Deleting it.\n");
             struct tree_node *child = !has_left_child ? current_node->rightchild : current_node->leftchild;
             free(current_node);
@@ -165,8 +169,8 @@ struct tree_node* delete_leaf_imp(struct tree_node* current_node, int value){
     }
 }
 
- void delete_leaf(struct tree_header* header, int value){
-    header->root = delete_leaf_imp(header->root, value);
+ void delete_node(struct tree_header* header, int value){
+    header->root = delete_node_imp(header->root, value);
 }
 
 //handle an illegal insertion
@@ -246,7 +250,7 @@ int main()
 
     find_node(header->root, 8);
     printf("\n");
-    delete_leaf(header, 5);
+    delete_node(header, 5);
     printf("\n");
     find_node(header->root, 8);
     printf("\n");
