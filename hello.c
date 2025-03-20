@@ -115,7 +115,7 @@ struct tree_node* delete_node_imp(struct tree_node* current_node, int value){
             // The in-order predecessor node will be removed and replaced by its left child.
             // It has no right children.
             struct tree_node *to_delete = in_order_predecessor;
-            in_order_predecessor = in_order_predecessor->leftchild;
+            current_node->leftchild = in_order_predecessor ->leftchild;
             free(to_delete);
             return current_node;
         }
@@ -185,9 +185,9 @@ int main()
 {
 
     //      3
-    //   1     5
-    // 0     4   8
-
+    //   1     6
+    // 0     5   8
+    //X X   4 X X X
     //assmeble the right subtree
     struct tree_node *eight = malloc(sizeof(struct tree_node));
     *eight = (struct tree_node){8, NULL, NULL};
@@ -196,7 +196,10 @@ int main()
     *four = (struct tree_node){4, NULL, NULL};
 
     struct tree_node *five = malloc(sizeof(struct tree_node));
-    *five = (struct tree_node){ 5, four, eight};
+    *five = (struct tree_node){5, four, NULL};
+
+    struct tree_node *six = malloc(sizeof(struct tree_node));
+    *six = (struct tree_node){ 6, five, eight};
 
     //assemble the left subtree
     struct tree_node *zero = malloc(sizeof(struct tree_node));
@@ -207,11 +210,19 @@ int main()
 
     //bring together at the root
     struct tree_node *three = malloc(sizeof(struct tree_node));
-    *three = (struct tree_node){3, one, five};
+    *three = (struct tree_node){3, one, six};
 
     struct tree_header *header = malloc(sizeof(struct tree_header));
     *header = (struct tree_header){three};
 
-    delete_bst(three);
+    find_node(header->root, 8);
+    printf("\n");
+    delete_node(header, 6);
+    printf("\n");
+    find_node(header->root, 4);
+    printf("\n");
+    find_node(header->root, 6); //should not be found
+
+    // delete_bst(three);
 
 }
