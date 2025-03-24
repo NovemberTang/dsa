@@ -167,6 +167,22 @@ void mirror(struct tree_node* root){
     }
 }
 
+struct tree_node *find_min(struct tree_node* root){
+    if(root->leftchild == NULL){
+        return root;
+    }else{
+        return find_min(root->leftchild);
+    }
+}
+
+    struct tree_node *find_max(struct tree_node* root){
+        if(root->rightchild == NULL){
+            return root;
+        }else{
+            return find_max(root->rightchild);
+        }
+}
+
 int main()
 {
 
@@ -201,9 +217,7 @@ int main()
     struct tree_header *header = malloc(sizeof(struct tree_header));
     *header = (struct tree_header){three};
 
-    printf("before\n");
-    printf("%d\n", three->rightchild->leftchild->leftchild->value);
-    mirror(three);
-    printf("after\n");
-    printf("%d\n", three->leftchild->rightchild->rightchild->value);
+    struct tree_node *min = find_max(header->root);
+    printf("max: %d\n", min->value);
+
 }
