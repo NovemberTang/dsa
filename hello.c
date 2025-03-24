@@ -168,7 +168,7 @@ void mirror(struct tree_node* root){
 }
 
 struct tree_node *find_min(struct tree_node* root){
-    if(root->leftchild == NULL){
+    if(root == NULL || root->leftchild == NULL){
         return root;
     }else{
         return find_min(root->leftchild);
@@ -176,7 +176,7 @@ struct tree_node *find_min(struct tree_node* root){
 }
 
     struct tree_node *find_max(struct tree_node* root){
-        if(root->rightchild == NULL){
+        if(root == NULL || root->rightchild == NULL){
             return root;
         }else{
             return find_max(root->rightchild);
@@ -203,7 +203,7 @@ int main()
     struct tree_node *six = malloc(sizeof(struct tree_node));
     *six = (struct tree_node){ 6, five, eight};
 
-    //assemble the left subtree
+    // assemble the left subtree
     struct tree_node *zero = malloc(sizeof(struct tree_node));
     *zero = (struct tree_node){0, NULL, NULL};
 
