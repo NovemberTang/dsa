@@ -82,4 +82,6 @@ int main()
 
     post_order_traversal(header->root);
 
+    return 0;
+
 }
