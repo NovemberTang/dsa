@@ -173,3 +173,39 @@ struct tree_node *find_max(struct tree_node* root){
         return find_max(root->rightchild);
     }
 }
+
+void pre_order_traversal(struct tree_node* root){
+    if(root != NULL){
+        printf("value: %d\n", root->value);
+        pre_order_traversal(root->leftchild);
+        pre_order_traversal(root->rightchild);
+    }
+}
+
+
+
+void post_order_traversal(struct tree_node* root){
+    if(root!=NULL){
+        post_order_traversal(root->leftchild);
+        post_order_traversal(root->rightchild);
+        printf("value: %d\n", root->value);
+    }
+}
+
+
+int calculate_height(struct tree_node* root){
+    if(root == NULL){
+        return 0;
+    }
+    else{
+        printf("current node = %d\n", root->value);
+        int l_height = calculate_height(root->leftchild);
+        int r_height = calculate_height(root->rightchild);
+        if(r_height > l_height){
+            return r_height + 1;
+        }
+        else{
+            return l_height+1;
+        }
+    }
+}

@@ -4,31 +4,6 @@
 #include "stack.h"
 #include "binarySearchTree.h"
 
-void pre_order_traversal(struct tree_node* root){
-    if(root != NULL){
-        printf("value: %d\n", root->value);
-        pre_order_traversal(root->leftchild);
-        pre_order_traversal(root->rightchild);
-    }
-}
-
-void in_order_traversal(struct tree_node* root){
-    if(root!=NULL){
-        in_order_traversal(root->leftchild);
-        printf("value: %d\n", root->value);
-        in_order_traversal(root->rightchild);
-    }
-}
-
-void post_order_traversal(struct tree_node* root){
-    if(root!=NULL){
-        post_order_traversal(root->leftchild);
-        post_order_traversal(root->rightchild);
-        printf("value: %d\n", root->value);
-    }
-}
-
-
 int calculate_height(struct tree_node* root){
     if(root == NULL){
         return 0;
@@ -46,41 +21,81 @@ int calculate_height(struct tree_node* root){
     }
 }
 
+void in_order_traversal(struct tree_node* root){
+    if(root!=NULL){
+        in_order_traversal(root->leftchild);
+        printf("value: %d\n", root->value);
+        in_order_traversal(root->rightchild);
+    }
+}
+
+typedef struct tree_node_avl{
+    int value;
+    struct tree_node_avl *leftchild;
+    struct tree_node_avl *rightchild;
+    struct tree_node_avl *parent;
+    int height;
+}tree_node_avl;
+
+struct tree_node_avl *tree_insert_avl(struct tree_node_avl* root, int value){
+    printf("current node = %d\n", root->value);
+    if(root == NULL){
+        struct tree_node_avl* new_root = malloc(sizeof(struct tree_node_avl ));
+        *new_root = (struct tree_node_avl){value, NULL, NULL, NULL, 0};
+        printf("-------\n");
+        return new_root;
+    }
+    else if(root->value==value){
+        printf("%d already exists. exiting! \n", root->value);
+        printf("-------\n");
+        return root;
+    }
+    else if(value < root->value && root->leftchild != NULL){
+        printf("new node %d < %d. moving to right child.\n\n", value, root->value);
+        return tree_insert_avl(root->leftchild, value);
+    }
+    else if(value < root->value){
+        struct tree_node_avl* new_node = malloc(sizeof(struct tree_node_avl));
+        *new_node = (struct tree_node_avl){value, NULL, NULL, root, 0};
+        root->leftchild = new_node;
+        printf("attached value %d as a left child of %d\n\n", value, root->value);
+        printf("-------\n");
+        return root;
+    }
+    else if(value > root->value && root->rightchild != NULL){
+        printf("new node %d > %d. moving to right child\n\n", value, root->value);
+        return tree_insert_avl(root->rightchild, value);
+    }
+    else if(value > root->value){
+        struct tree_node_avl* new_node = malloc(sizeof(struct tree_node_avl));
+        *new_node = (struct tree_node_avl){value, NULL, NULL, root, 0};
+        root->rightchild = new_node;
+        printf("attached value %d as a right child of %d\n\n", value, root->value);
+        printf("-------\n");
+        return root;
+    }
+    else{
+        printf("something weird is going on!");
+        printf("-------\n");
+        return root; //No valid children left
+    }
+}
+
 int main()
 {
 
-    //      3
-    //   1     6
-    // 0     5   8
-    //X X   4 X X X
-    //assmeble the right subtree
-    struct tree_node *eight = malloc(sizeof(struct tree_node));
-    *eight = (struct tree_node){8, NULL, NULL};
+    struct tree_node_avl *root = malloc(sizeof(struct tree_node_avl));
+    *root = (struct tree_node_avl){60, NULL, NULL, NULL, 0};
 
-    struct tree_node *four = malloc(sizeof(struct tree_node));
-    *four = (struct tree_node){4, NULL, NULL};
 
-    struct tree_node *five = malloc(sizeof(struct tree_node));
-    *five = (struct tree_node){5, four, NULL};
-
-    struct tree_node *six = malloc(sizeof(struct tree_node));
-    *six = (struct tree_node){ 6, five, eight};
-
-    // assemble the left subtree
-    struct tree_node *zero = malloc(sizeof(struct tree_node));
-    *zero = (struct tree_node){0, NULL, NULL};
-
-    struct tree_node *one = malloc(sizeof(struct tree_node));
-    *one = (struct tree_node){1, zero, NULL};
-
-    //bring together at the root
-    struct tree_node *three = malloc(sizeof(struct tree_node));
-    *three = (struct tree_node){3, one, six};
-
-    struct tree_header *header = malloc(sizeof(struct tree_header));
-    *header = (struct tree_header){three};
-
-    post_order_traversal(header->root);
+    tree_insert_avl(root, 10);
+    tree_insert_avl(root, 20);
+    // tree_insert(root, 30);
+    // tree_insert(root, 19);
+    // tree_insert(root, 120);
+    // tree_insert(root, 100);
+    // tree_insert(root, 80);
+    // tree_insert(root, 19);
 
     return 0;
 
