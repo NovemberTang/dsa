@@ -3,23 +3,8 @@
 #include "arrayUtils.h"
 #include "stack.h"
 #include "binarySearchTree.h"
+#include <math.h>
 
-int calculate_height(struct tree_node* root){
-    if(root == NULL){
-        return 0;
-    }
-    else{
-        printf("current node = %d\n", root->value);
-        int l_height = calculate_height(root->leftchild);
-        int r_height = calculate_height(root->rightchild);
-        if(r_height > l_height){
-            return r_height + 1;
-        }
-        else{
-            return l_height+1;
-        }
-    }
-}
 
 void in_order_traversal(struct tree_node* root){
     if(root!=NULL){
@@ -37,13 +22,38 @@ typedef struct tree_node_avl{
     int height;
 }tree_node_avl;
 
+
+// function calculateBalanceFactor(node):
+//   if node is null:
+//     return 0 // Or some other value, as null nodes are balanced
+//   else:
+//     leftHeight = getHeight(node.left)
+//     rightHeight = getHeight(node.right)
+//     return leftHeight - rightHeight
+
+// function getHeight(node):
+//   if node is null:
+//     return -1 // Or 0, depending on your height definition
+//   else:
+//     return 1 + max(getHeight(node.left), getHeight(node.right))
+
+
+void addToHeight(struct tree_node_avl* node){
+    struct tree_node_avl *current = node;
+    while(current->parent !=NULL){
+        current->parent->height = current->parent->height+1;
+        current = current->parent;
+    }
+    printf("root height: %d\n", current->height);
+}
+
 struct tree_node_avl *tree_insert_avl(struct tree_node_avl* root, int value){
     printf("current node = %d\n", root->value);
+    struct tree_node_avl* new_node = malloc(sizeof(struct tree_node_avl ));
+    *new_node = (struct tree_node_avl){value, NULL, NULL, root, 0};
     if(root == NULL){
-        struct tree_node_avl* new_root = malloc(sizeof(struct tree_node_avl ));
-        *new_root = (struct tree_node_avl){value, NULL, NULL, NULL, 0};
         printf("-------\n");
-        return new_root;
+        return new_node;
     }
     else if(root->value==value){
         printf("%d already exists. exiting! \n", root->value);
@@ -55,10 +65,9 @@ struct tree_node_avl *tree_insert_avl(struct tree_node_avl* root, int value){
         return tree_insert_avl(root->leftchild, value);
     }
     else if(value < root->value){
-        struct tree_node_avl* new_node = malloc(sizeof(struct tree_node_avl));
-        *new_node = (struct tree_node_avl){value, NULL, NULL, root, 0};
         root->leftchild = new_node;
         printf("attached value %d as a left child of %d\n\n", value, root->value);
+        addToHeight(root->leftchild);
         printf("-------\n");
         return root;
     }
@@ -67,10 +76,9 @@ struct tree_node_avl *tree_insert_avl(struct tree_node_avl* root, int value){
         return tree_insert_avl(root->rightchild, value);
     }
     else if(value > root->value){
-        struct tree_node_avl* new_node = malloc(sizeof(struct tree_node_avl));
-        *new_node = (struct tree_node_avl){value, NULL, NULL, root, 0};
         root->rightchild = new_node;
         printf("attached value %d as a right child of %d\n\n", value, root->value);
+        addToHeight(root->rightchild);
         printf("-------\n");
         return root;
     }
@@ -79,7 +87,10 @@ struct tree_node_avl *tree_insert_avl(struct tree_node_avl* root, int value){
         printf("-------\n");
         return root; //No valid children left
     }
+
 }
+
+
 
 int main()
 {
