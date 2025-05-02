@@ -35,30 +35,38 @@ void avl_rotation(struct tree_node_avl* node){
     int g_balance_factor = check_balance_factor(node->parent->parent);
     int p_balance_factor = check_balance_factor(node->parent);
 
-    int g_value = node->parent->parent->value;
-    int p_value = node->parent->value;
-    int c_value = node->value;
 
     if(g_balance_factor==-2){
         if (p_balance_factor == 1){
         printf("RL rotation. Moving to RR\n");
+        //5         5
+        //  60        10
+        //10             60
 
         struct tree_node_avl *p_node = node->parent;
         struct tree_node_avl *g_node = p_node->parent;
-            
+
         g_node->rightchild=node;
         node->parent=g_node;
 
         node->rightchild = p_node;
-        p_node ->parent = node;
+        p_node->parent = node;
 
         p_node->leftchild=NULL;
+
+        g_node->leftchild=NULL;
+        node->leftchild=NULL;
 
         //node now points to the parent position and needs to be moved down a level
         node = p_node;
 
+        printf("n: %d, p: %d, g: %d\n", node->value, node->parent->value, node->parent->parent->value);
+
     }
 
+    int g_value = node->parent->parent->value;
+    int p_value = node->parent->value;
+    int c_value = node->value;
     printf("RR rotation\n");
     node->parent->parent->value=p_value;
     node->parent->value = c_value;
@@ -86,6 +94,10 @@ void avl_rotation(struct tree_node_avl* node){
             node = p_node;
         }
 
+        int g_value = node->parent->parent->value;
+        int p_value = node->parent->value;
+        int c_value = node->value;
+
         printf("LL rotation\n");
         node->parent->parent->value=p_value;
         node->parent->value = c_value;
@@ -98,6 +110,7 @@ void avl_rotation(struct tree_node_avl* node){
         // node->parent->parent->leftchild=NULL;
 
 }
+
 
 void addToHeight(struct tree_node_avl* node){
     struct tree_node_avl *current = node;
