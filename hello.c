@@ -39,7 +39,53 @@ void avl_rotation(struct tree_node_avl* node){
     int p_value = node->parent->value;
     int c_value = node->value;
 
-    if(g_balance_factor==2 && p_balance_factor == 1){
+    if(g_balance_factor==-2){
+        if (p_balance_factor == 1){
+        printf("RL rotation. Moving to RR\n");
+
+        struct tree_node_avl *p_node = node->parent;
+        struct tree_node_avl *g_node = p_node->parent;
+            
+        g_node->rightchild=node;
+        node->parent=g_node;
+
+        node->rightchild = p_node;
+        p_node ->parent = node;
+
+        p_node->leftchild=NULL;
+
+        //node now points to the parent position and needs to be moved down a level
+        node = p_node;
+
+    }
+
+    printf("RR rotation\n");
+    node->parent->parent->value=p_value;
+    node->parent->value = c_value;
+    node->parent->rightchild = NULL; //changing a ref, not moving a physical node.
+    *node = (struct tree_node_avl){g_value, NULL, NULL, node->parent->parent, 1}; //i think the height should be 1, not 0
+    node->parent->leftchild = node;
+    printf("finished rotation\n");
+}
+
+    if(g_balance_factor==2 ){
+        if(p_balance_factor == -1){
+            printf("LR rotation. Moving to LL\n");
+            struct tree_node_avl *p_node = node->parent;
+            struct tree_node_avl *g_node = p_node->parent;
+
+            g_node->leftchild=node;
+            node->parent=g_node;
+
+            node->leftchild = p_node;
+            p_node ->parent = node;
+
+            p_node->rightchild=NULL;
+
+            //node now points to the parent position and needs to be moved down a level
+            node = p_node;
+        }
+
         printf("LL rotation\n");
         node->parent->parent->value=p_value;
         node->parent->value = c_value;
@@ -47,17 +93,9 @@ void avl_rotation(struct tree_node_avl* node){
         *node = (struct tree_node_avl){g_value, NULL, NULL, node->parent->parent, 1}; //i think the height should be 1, not 0
         node->parent->rightchild = node;
         printf("finished rotation\n");
+        
     }
-    else if(g_balance_factor==-2 && p_balance_factor == -1){
-        printf("RR rotation\n");
-        node->parent->parent->value=p_value;
-        node->parent->value = c_value;
-        node->parent->rightchild = NULL; //changing a ref, not moving a physical node.
-        *node = (struct tree_node_avl){g_value, NULL, NULL, node->parent->parent, 1}; //i think the height should be 1, not 0
-        node->parent->leftchild = node;
-        printf("finished rotation\n");
-
-    }
+        // node->parent->parent->leftchild=NULL;
 
 }
 
@@ -127,9 +165,15 @@ int main()
     struct tree_node_avl *root = malloc(sizeof(struct tree_node_avl));
     *root = (struct tree_node_avl){5, NULL, NULL, NULL, 1};
 
+    //RR - done
+    //RL - ???
+    //LL - done
+    // LR - ???
 
-    tree_insert_avl(root, 10);
-    tree_insert_avl(root, 60);
+    //TODO test LR and RL rotation
+    tree_insert_avl(root, 8);
+    tree_insert_avl(root, 7);
+    printf("root: %d\n", root->value);
     printf("leftchild: %d\n", root->leftchild->value);
     printf("new rightchild: %d\n", root->rightchild->value);
     // tree_insert_avl(root, 20);
