@@ -23,12 +23,11 @@ int hash(int x){
 void add_to_hashmap(int x, struct node **arr ){
     int idx = hash(x);
     struct node* node_at_index = arr[idx];
-
     struct node *newNode = malloc(sizeof(struct node));
     *newNode = (struct node){x, NULL};
 
     if(node_at_index==NULL){//nothing exists with that hash currently
-        node_at_index=newNode;
+        arr[idx]=newNode;
         printf("put %d in index %d\n", x, idx);
     }else{ //if there is a hash collision
         while(node_at_index->next != NULL){
@@ -38,7 +37,6 @@ void add_to_hashmap(int x, struct node **arr ){
         printf("put %d in index %d, after %d\n", x, idx, node_at_index->value);
     }
 }
-
 
 int main()
 {
@@ -56,8 +54,6 @@ int main()
 
     add_to_hashmap(4, arr);
     add_to_hashmap(14, arr);
-
-    
 
     return 0;
 
