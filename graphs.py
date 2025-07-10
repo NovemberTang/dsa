@@ -37,9 +37,38 @@ graph = {
     "D": LlNode("D")
     }
 
+visited = {
+    "A": False,
+    "B": False,
+    "C": False,
+    "D": False
+}
+
 graph["A"].next = LlNode("B")
 graph["A"].next.next = LlNode("C")
+graph["B"].next = LlNode("C")
+graph["C"].next = LlNode("D")
+graph["D"].next = LlNode("B")
 
-print(graph["A"].next.vertex)
-print(graph["A"].next.next.vertex)
-print(graph["A"].next.next.next)
+queue = []
+
+queue.append("A")
+
+while len(queue)>0:
+
+    current_node = queue.pop(0)
+    if visited[current_node]:
+        continue
+    else:
+        adjacent_node = graph[current_node].next
+        while adjacent_node != None:
+            if not visited[adjacent_node.vertex]:
+                print("adding " + adjacent_node.vertex + " to queue")
+                queue.append(adjacent_node.vertex)
+            adjacent_node = adjacent_node.next
+
+        visited[current_node] = True
+
+        print(queue)
+
+print(queue)
