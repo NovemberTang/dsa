@@ -37,12 +37,7 @@ graph = {
     "D": LlNode("D")
     }
 
-visited = {
-    "A": False,
-    "B": False,
-    "C": False,
-    "D": False
-}
+
 
 graph["A"].next = LlNode("B")
 graph["A"].next.next = LlNode("C")
@@ -52,22 +47,30 @@ graph["D"].next = LlNode("B")
 
 queue = []
 
+visited = set()
+
 queue.append("A")
 
 while len(queue)>0:
+    print("\n")
 
     current_node = queue.pop(0)
-    if visited[current_node]:
+    print("current node: " + current_node)
+    if current_node in visited:
+        print("already visited: " + current_node)
         continue
     else:
         adjacent_node = graph[current_node].next
         while adjacent_node != None:
-            if not visited[adjacent_node.vertex]:
+            if adjacent_node.vertex not in visited:
                 print("adding " + adjacent_node.vertex + " to queue")
                 queue.append(adjacent_node.vertex)
+            else:
+                print("already visited: " + adjacent_node.vertex)
             adjacent_node = adjacent_node.next
 
-        visited[current_node] = True
+        print("marking " + current_node + " as visited")
+        visited.add(current_node)
 
         print(queue)
 
