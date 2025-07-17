@@ -73,3 +73,52 @@ def graph_bfs():
             print(queue)
 
     print(queue)
+
+def graph_dfs():
+
+    graph = {
+    "A": LlNode("A"),
+    "B": LlNode("B"),
+    "C": LlNode("C"),
+    "D": LlNode("D"),
+    "E": LlNode("E")
+    }
+
+    graph["A"].next = LlNode("B")
+    graph["A"].next.next = LlNode("C")
+    graph["A"].next.next.next = LlNode("E")
+    graph["B"].next = LlNode("D")
+    graph["C"].next = LlNode("D")
+    graph["E"].next = LlNode("C")
+    
+    stack = []
+    visited = set()
+
+    stack.append("A")
+
+    while len(stack)>0:
+        print("\n")
+
+        current_node = stack.pop()
+        print("current node: " + current_node)
+        if current_node in visited:
+            print("already visited: " + current_node)
+            continue
+        else:
+            adjacent_node = graph[current_node].next
+            while adjacent_node != None:
+                if adjacent_node.vertex not in visited:
+                    print("adding " + adjacent_node.vertex + " to queue")
+                    stack.append(adjacent_node.vertex)
+                else:
+                    print("already visited: " + adjacent_node.vertex)
+                adjacent_node = adjacent_node.next
+
+            print("marking " + current_node + " as visited")
+            visited.add(current_node)
+
+            print(stack)
+
+    print(stack)
+
+graph_dfs()
