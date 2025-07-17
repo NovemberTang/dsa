@@ -121,4 +121,45 @@ def graph_dfs():
 
     print(stack)
 
-graph_dfs()
+
+def topological_sort():
+    graph = {
+        "A": LlNode("A"),
+        "B": LlNode("B"),
+        "C": LlNode("C"),
+        "D": LlNode("D"),
+        "E": LlNode("E")
+    }
+
+    in_nodes = {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "E": 0
+    }
+
+    graph["A"].next = LlNode("B")
+    graph["A"].next.next = LlNode("C")
+    graph["B"].next = LlNode("E")
+    graph["C"].next = LlNode("B")
+    graph["C"].next.next = LlNode("D")
+
+    def calculate_in_node(graph):
+        for key, value in graph.items():
+            while value.next !=None:
+                in_nodes[value.next.vertex] += 1  #B = 1
+                value = value.next
+                print(in_nodes)
+            print(" ")
+
+    calculate_in_node()
+
+    queue = []
+
+    start_node = list(in_nodes.keys())[list(in_nodes.values()).index(0)]
+
+    queue.append(start_node)
+
+
+topological_sort()
