@@ -121,6 +121,28 @@ def graph_dfs():
 
     print(stack)
 
+def calculate_in_node(graph):
+    in_nodes = {}
+
+    #dynamically create an empty in_nodes dict based on the graph
+    for key in graph.keys():
+        in_nodes[key] = 0
+
+    for key, value in graph.items():
+        print("key: " + key)
+        while value.next !=None:
+            in_nodes[value.next.vertex] += 1  #B = 1
+            value = value.next
+            print(in_nodes)
+        print(" ")
+    return in_nodes
+
+def find_first_nodes(in_nodes):
+    start_nodes = []
+    for key, value in in_nodes.items():
+        if value == 0:
+            start_nodes.append(key)
+    return start_nodes
 
 def topological_sort():
     graph = {
@@ -131,14 +153,6 @@ def topological_sort():
         "E": LlNode("E")
     }
 
-    in_nodes = {
-        "A": 0,
-        "B": 0,
-        "C": 0,
-        "D": 0,
-        "E": 0
-    }
-
     seen = []
 
     graph["A"].next = LlNode("B")
@@ -147,41 +161,24 @@ def topological_sort():
     graph["C"].next = LlNode("B")
     graph["C"].next.next = LlNode("D")
 
-    def calculate_in_node(graph):
-        current_in_nodes = in_nodes.copy()
-        for key, value in graph.items():
-            print("key: " + key)
-            while value.next !=None:
-                current_in_nodes[value.next.vertex] += 1  #B = 1
-                value = value.next
-                print(current_in_nodes)
-            print(" ")
-
-    calculate_in_node(graph)
-
     queue = []
 
 # put this in a loop at some point
 
+    in_nodes = calculate_in_node(graph)
+    start_nodes = find_first_nodes(in_nodes)
+    print("start nodes: " + start_nodes.__str__())
 
-    # first node in graph with in_node = 0
-    start_node = ''
-    for key, value in in_nodes.items():
-        if value == 0:
-            start_node = key
-            break
+    queue.extend(start_nodes)
 
-    print("start node: " + start_node)
+    for current_node in queue:
+        current_node = queue.pop(0)
+        graph[current_node].next = None
+        seen.append(current_node)
+        del graph[current_node]
+        del in_nodes[current_node]
 
-    queue.append(start_node)
-    current_node = queue.pop(0)
-
-    graph[current_node].next = None
-    seen.append(current_node)
-    del graph[current_node]
-    del in_nodes[current_node]
-
-    calculate_in_node(graph)
+    in_nodes = calculate_in_node(graph)
 
 
 topological_sort()
