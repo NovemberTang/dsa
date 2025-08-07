@@ -163,22 +163,24 @@ def topological_sort():
 
     queue = []
 
-# put this in a loop at some point
+    while len(graph) > 0:
 
-    in_nodes = calculate_in_node(graph)
-    start_nodes = find_first_nodes(in_nodes)
-    print("start nodes: " + start_nodes.__str__())
+        in_nodes = calculate_in_node(graph)
+        start_nodes = find_first_nodes(in_nodes)
+        print("start nodes: " + start_nodes.__str__())
 
-    queue.extend(start_nodes)
+        queue.extend(start_nodes)
 
-    for current_node in queue:
-        current_node = queue.pop(0)
-        graph[current_node].next = None
-        seen.append(current_node)
-        del graph[current_node]
-        del in_nodes[current_node]
+        while len(queue) > 0:
+            current_node = queue.pop(0)
+            graph[current_node].next = None
+            seen.append(current_node)
+            del graph[current_node]
+            del in_nodes[current_node]
 
-    in_nodes = calculate_in_node(graph)
+        in_nodes = calculate_in_node(graph)
+
+    print(seen)
 
 
 topological_sort()
