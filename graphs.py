@@ -139,6 +139,8 @@ def topological_sort():
         "E": 0
     }
 
+    seen = []
+
     graph["A"].next = LlNode("B")
     graph["A"].next.next = LlNode("C")
     graph["B"].next = LlNode("E")
@@ -146,20 +148,40 @@ def topological_sort():
     graph["C"].next.next = LlNode("D")
 
     def calculate_in_node(graph):
+        current_in_nodes = in_nodes.copy()
         for key, value in graph.items():
+            print("key: " + key)
             while value.next !=None:
-                in_nodes[value.next.vertex] += 1  #B = 1
+                current_in_nodes[value.next.vertex] += 1  #B = 1
                 value = value.next
-                print(in_nodes)
+                print(current_in_nodes)
             print(" ")
 
-    calculate_in_node()
+    calculate_in_node(graph)
 
     queue = []
 
-    start_node = list(in_nodes.keys())[list(in_nodes.values()).index(0)]
+# put this in a loop at some point
+
+
+    # first node in graph with in_node = 0
+    start_node = ''
+    for key, value in in_nodes.items():
+        if value == 0:
+            start_node = key
+            break
+
+    print("start node: " + start_node)
 
     queue.append(start_node)
+    current_node = queue.pop(0)
+
+    graph[current_node].next = None
+    seen.append(current_node)
+    del graph[current_node]
+    del in_nodes[current_node]
+
+    calculate_in_node(graph)
 
 
 topological_sort()
